@@ -10,18 +10,11 @@ try {
   if (import.meta.env.DEV) {
     packages = [
       {
-        id: 'example.hello-world',
-        name: 'Hello World',
-        version: '1.0.0',
-        description: 'A simple example package demonstrating nex structure',
-        keywords: ['example', 'demo', 'hello']
-      },
-      {
         id: 'devkiraa.pagepull',
         name: 'PagePull',
-        version: '0.0.1',
-        description: 'Pull entire websites for offline viewing',
-        keywords: ['website', 'downloader', 'offline']
+        version: '1.0.0',
+        description: 'Extract web pages as clean Markdown for AI/LLM consumption',
+        keywords: ['web', 'scraper', 'markdown', 'ai', 'llm']
       }
     ];
   } else {
@@ -35,6 +28,14 @@ try {
 }
 
 const baseUrl = import.meta.env.BASE_URL;
+const releaseVersion = 'v1.0.0';
+const releaseBaseUrl = `https://github.com/devkiraa/nex/releases/download/${releaseVersion}`;
+const releasePageUrl = `https://github.com/devkiraa/nex/releases/tag/${releaseVersion}`;
+const downloadLinks = {
+  windows: `${releaseBaseUrl}/nex-windows-x64.exe`,
+  linux: `${releaseBaseUrl}/nex-linux-x64`,
+  mac: `${releaseBaseUrl}/nex-macos-x64`,
+};
 ---
 
 <Layout title="Home" showSearch={false}>
@@ -89,6 +90,15 @@ const baseUrl = import.meta.env.BASE_URL;
   <section class="install-section">
     <div class="container">
       <div class="install-box">
+        <div class="release-info">
+          <div>
+            <span class="release-label">Latest release</span>
+            <span class="release-version">{releaseVersion}</span>
+          </div>
+          <a href={releasePageUrl} target="_blank" rel="noopener" class="release-link">
+            View release notes
+          </a>
+        </div>
         <div class="install-tabs">
           <button class="tab active" data-tab="windows">Windows</button>
           <button class="tab" data-tab="linux">Linux</button>
@@ -96,39 +106,41 @@ const baseUrl = import.meta.env.BASE_URL;
         </div>
         <div class="install-content">
           <div class="install-panel active" id="windows">
-            <pre><code><span class="comment"># Download from GitHub Releases</span>
-curl -LO https://github.com/devkiraa/nex/releases/latest/download/nex-windows-x64.exe
+            <pre><code><span class="comment"># Download nex {releaseVersion}</span>
+curl -LO {downloadLinks.windows}
 
-<span class="comment"># Add to PATH and run</span>
-nex install author.package-name</code></pre>
+<span class="comment"># Move into a folder on PATH</span>
+move .\nex-windows-x64.exe %USERPROFILE%\bin\nex.exe
+
+<span class="comment"># Verify</span>
+nex --version</code></pre>
           </div>
           <div class="install-panel" id="linux">
-            <pre><code><span class="comment"># Download from GitHub Releases</span>
-curl -LO https://github.com/devkiraa/nex/releases/latest/download/nex-linux-x64
-chmod +x nex-linux-x64
-sudo mv nex-linux-x64 /usr/local/bin/nex
+            <pre><code><span class="comment"># Download nex {releaseVersion}</span>
+curl -LO {downloadLinks.linux}
+sudo install -m 755 nex-linux-x64 /usr/local/bin/nex
 
-<span class="comment"># Install packages</span>
-nex install author.package-name</code></pre>
+<span class="comment"># Verify</span>
+nex --version</code></pre>
           </div>
           <div class="install-panel" id="mac">
-            <pre><code><span class="comment"># Download from GitHub Releases</span>
-curl -LO https://github.com/devkiraa/nex/releases/latest/download/nex-macos-x64
-chmod +x nex-macos-x64
-sudo mv nex-macos-x64 /usr/local/bin/nex
+            <pre><code><span class="comment"># Download nex {releaseVersion}</span>
+curl -LO {downloadLinks.mac}
+sudo install -m 755 nex-macos-x64 /usr/local/bin/nex
 
-<span class="comment"># Install packages</span>
-nex install author.package-name</code></pre>
+<span class="comment"># Verify</span>
+nex --version</code></pre>
           </div>
         </div>
         <div class="install-cta">
-          <a href="https://github.com/devkiraa/nex/releases" class="btn btn-primary">
-            Download nex CLI
+          <a href={releasePageUrl} class="btn btn-primary" target="_blank" rel="noopener">
+            Download nex {releaseVersion}
           </a>
           <a href={`${baseUrl}docs`} class="btn btn-secondary">
             Read the Docs
           </a>
         </div>
+        <p class="checksum-note">Checksums and binaries are hosted on GitHub Releases. Always verify downloads before installing.</p>
       </div>
     </div>
   </section>
@@ -383,6 +395,33 @@ nex install author.package-name</code></pre>
     box-shadow: var(--shadow-lg);
     overflow: hidden;
   }
+
+  .release-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem 0.5rem;
+    gap: 1rem;
+  }
+
+  .release-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--nex-gray);
+    display: block;
+  }
+
+  .release-version {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--nex-red);
+  }
+
+  .release-link {
+    font-weight: 500;
+    color: var(--nex-red);
+  }
   
   .install-tabs {
     display: flex;
@@ -441,6 +480,13 @@ nex install author.package-name</code></pre>
     padding: 1.5rem;
     background: var(--nex-bg);
     justify-content: center;
+  }
+
+  .checksum-note {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--nex-gray);
+    padding: 0 1.5rem 1.5rem;
   }
 
   /* Features Section */
