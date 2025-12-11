@@ -225,16 +225,18 @@ try {
   }
 
   .install-cmd {
-    background: #1a1a2e;
+    background: #1e1e1e;
     padding: 0.75rem 1rem;
     border-radius: 6px;
     margin-top: auto;
   }
 
   .install-cmd code {
-    color: #00d9ff;
+    color: #ffffff;
     font-size: 0.9rem;
     font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+    background-color: transparent;
+    padding: 0;
   }
 
   .empty-state {
@@ -267,12 +269,78 @@ try {
   }
 
   @media (max-width: 768px) {
+    .search-hero {
+      padding: 2rem 1rem;
+    }
+    
     .search-hero h1 {
       font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .search-box input {
+      padding: 0.85rem 0.85rem 0.85rem 2.75rem;
+      font-size: 1rem;
     }
 
     .package-grid {
       grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    .container {
+      padding: 1.5rem 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .search-hero {
+      padding: 1.5rem 0.75rem;
+    }
+    
+    .search-hero h1 {
+      font-size: 1.25rem;
+    }
+    
+    .result-count {
+      font-size: 0.85rem;
+    }
+    
+    .package-card {
+      padding: 1.25rem;
+    }
+    
+    .package-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    
+    .package-name {
+      font-size: 1.1rem;
+    }
+    
+    .package-id {
+      font-size: 0.8rem;
+      word-break: break-all;
+    }
+    
+    .package-description {
+      font-size: 0.9rem;
+    }
+    
+    .install-cmd {
+      padding: 0.6rem 0.8rem;
+    }
+    
+    .install-cmd code {
+      font-size: 0.8rem;
+      word-break: break-all;
+    }
+    
+    .keyword {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.4rem;
     }
   }
 </style>
