@@ -16,7 +16,7 @@ An open-source package manager for developer tools. Think npm/winget but for Pyt
 
 ### Installation
 
-Download the latest `nex.exe` from [Releases](https://github.com/yourorg/nex/releases) and add it to your PATH.
+Download the latest `nex.exe` from [Releases](https://github.com/devkiraa/nex/releases) and add it to your PATH.
 
 ### Usage
 

@@ -149,7 +149,7 @@ nex run author.package-name convert  # runs "convert"
 
 ### Fork the Repository
 
-1. Go to https://github.com/yourorg/nex
+1. Go to https://github.com/devkiraa/nex
 2. Click "Fork" to create your own copy
 
 ### Add Your Package

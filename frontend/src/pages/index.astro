@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 
 // Fetch packages from registry (at build time)
-const registryUrl = 'https://raw.githubusercontent.com/yourorg/nex/main/registry/index.json';
+const registryUrl = 'https://raw.githubusercontent.com/devkiraa/nex/main/registry/index.json';
 let packages = [];
 let error = null;
 
@@ -46,7 +46,7 @@ try {
       
       <div class="cta-buttons">
         <a href={`${import.meta.env.BASE_URL}packages`} class="btn btn-primary">Browse Packages</a>
-        <a href="https://github.com/yourorg/nex/releases" class="btn btn-secondary">Download CLI</a>
+        <a href="https://github.com/devkiraa/nex/releases" class="btn btn-secondary">Download CLI</a>
       </div>
     </div>
   </section>

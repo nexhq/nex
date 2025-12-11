@@ -6,11 +6,11 @@
   "description": "A simple example package demonstrating nex structure. Prints a greeting message.",
   "author": {
     "name": "Nex Team",
-    "github": "yourorg"
+    "github": "devkiraa"
   },
   "license": "MIT",
-  "homepage": "https://github.com/yourorg/nex",
-  "repository": "https://github.com/yourorg/example-hello-world",
+  "homepage": "https://github.com/devkiraa/nex",
+  "repository": "https://github.com/devkiraa/example-hello-world",
   "keywords": ["example", "demo", "hello", "starter"],
   
   "runtime": {

@@ -30,7 +30,7 @@
 #define NEX_USER_AGENT "nex/1.0.0"
 
 /* Registry configuration */
-#define REGISTRY_BASE_URL "https://raw.githubusercontent.com/yourorg/nex/main/registry"
+#define REGISTRY_BASE_URL "https://raw.githubusercontent.com/devkiraa/nex/main/registry"
 #define REGISTRY_INDEX_URL REGISTRY_BASE_URL "/index.json"
 
 /* Limits */

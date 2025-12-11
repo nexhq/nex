@@ -23,7 +23,7 @@ This document describes the technical architecture of Nex.
 │                           GitHub                                     │
 │                                                                     │
 │  ┌────────────────────────────────────────────────────────────────┐│
-│  │ yourorg/nex (Registry Repository)                              ││
+│  │ devkiraa/nex (Registry Repository)                             ││
 │  │                                                                 ││
 │  │  registry/                                                      ││
 │  │  ├── index.json          ◄─── Package index                    ││

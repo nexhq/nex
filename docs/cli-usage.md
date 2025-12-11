@@ -4,7 +4,7 @@
 
 ### Download
 
-Download the latest release for your platform from the [Releases page](https://github.com/yourorg/nex/releases):
+Download the latest release for your platform from the [Releases page](https://github.com/devkiraa/nex/releases):
 
 - **Windows:** `nex-windows-x64.exe`
 - **Linux:** `nex-linux-x64`
@@ -133,7 +133,7 @@ Description:
   A simple example package demonstrating nex structure.
 
 Runtime: Python >=3.6
-Repository: https://github.com/yourorg/example-hello-world
+Repository: https://github.com/devkiraa/example-hello-world
 
 Commands:
   default: python main.py

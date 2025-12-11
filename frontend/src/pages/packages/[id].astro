@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
   // Fetch package list
-  const registryUrl = 'https://raw.githubusercontent.com/yourorg/nex/main/registry/index.json';
+  const registryUrl = 'https://raw.githubusercontent.com/devkiraa/nex/main/registry/index.json';
   let packages = [];
   
   try {
@@ -37,7 +37,7 @@ const { id } = Astro.params;
 const { package: pkg } = Astro.props;
 
 // Fetch full manifest for more details
-const manifestUrl = `https://raw.githubusercontent.com/yourorg/nex/main/registry/${pkg.manifest}`;
+const manifestUrl = `https://raw.githubusercontent.com/devkiraa/nex/main/registry/${pkg.manifest}`;
 let manifest = null;
 
 try {
@@ -47,9 +47,9 @@ try {
       name: 'Hello World',
       version: '1.0.0',
       description: 'A simple example package demonstrating nex structure. Prints a greeting message.',
-      author: { name: 'Nex Team', github: 'yourorg' },
+      author: { name: 'Nex Team', github: 'devkiraa' },
       license: 'MIT',
-      repository: 'https://github.com/yourorg/example-hello-world',
+      repository: 'https://github.com/devkiraa/example-hello-world',
       runtime: { type: 'python', version: '>=3.6' },
       entrypoint: 'main.py',
       commands: {

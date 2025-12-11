@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://github.com/yourorg/nex/registry/schema/package.schema.json",
+  "$id": "https://github.com/devkiraa/nex/registry/schema/package.schema.json",
   "title": "Nex Package Manifest",
   "description": "Schema for nex package manifest files",
   "type": "object",

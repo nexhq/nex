@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 
 // Fetch packages from registry (at build time)
-const registryUrl = 'https://raw.githubusercontent.com/yourorg/nex/main/registry/index.json';
+const registryUrl = 'https://raw.githubusercontent.com/devkiraa/nex/main/registry/index.json';
 let packages = [];
 
 try {
@@ -79,7 +79,7 @@ try {
     {packages.length === 0 && (
       <div class="empty-state">
         <p>No packages found.</p>
-        <p>Be the first to <a href="https://github.com/yourorg/nex">submit a package</a>!</p>
+        <p>Be the first to <a href="https://github.com/devkiraa/nex">submit a package</a>!</p>
       </div>
     )}
   </div>

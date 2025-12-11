@@ -3,7 +3,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://yourorg.github.io',
+  site: 'https://devkiraa.github.io',
   base: '/nex',
   integrations: [sitemap()],
   output: 'static',
