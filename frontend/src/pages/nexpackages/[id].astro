@@ -1,4 +1,31 @@
 ---
-const { id } = Astro.params;
+export async function getStaticPaths() {
+	const registryUrl = 'https://raw.githubusercontent.com/devkiraa/nex/main/registry/index.json';
+	let packages: Array<{ id: string }> = [];
+
+	try {
+		if (import.meta.env.DEV) {
+			packages = [
+				{
+					id: 'devkiraa.pagepull'
+				}
+			];
+		} else {
+			const response = await fetch(registryUrl);
+			const data = await response.json();
+			const fetched = (data.packages || []) as Array<{ id: string }>;
+			packages = fetched.map((pkg) => ({ id: pkg.id }));
+		}
+	} catch (e) {
+		packages = [];
+	}
+
+	return packages.map((pkg) => ({
+		params: { id: pkg.id },
+		props: { id: pkg.id }
+	}));
+}
+
+const { id } = Astro.props as { id: string };
 return Astro.redirect(`/packages/${id}`);
 ---

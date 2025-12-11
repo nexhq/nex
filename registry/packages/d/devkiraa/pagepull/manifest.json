@@ -2,6 +2,7 @@
   "$schema": "../../../../schema/package.schema.json",
   "id": "devkiraa.pagepull",
   "name": "PagePull",
+  "version": "0.0.1",
   "description": "Pull entire websites for offline viewing. Single-file CLI tool with stealth mode, local server preview, and support for modern JS frameworks.",
   "author": {
     "name": "devkiraa",

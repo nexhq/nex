@@ -28,12 +28,12 @@ export async function getStaticPaths() {
   
   return packages.map(pkg => ({
     params: { id: pkg.id },
-    props: { package: pkg }
+    props: { pkg }
   }));
 }
 
 const { id } = Astro.params;
-const { package: pkg } = Astro.props;
+const pkg = (Astro.props as any).pkg;
 
 const manifestUrl = `https://raw.githubusercontent.com/devkiraa/nex/main/registry/${pkg.manifest}`;
 let manifest = null;
@@ -52,7 +52,7 @@ try {
       entrypoint: 'main.py',
       commands: {
         default: 'python main.py',
-        export: 'python main.py export',
+        'export': 'python main.py export',
         help: 'python main.py --help'
       },
       keywords: pkg.keywords,
