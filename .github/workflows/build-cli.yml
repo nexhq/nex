@@ -6,12 +6,13 @@ on:
     paths:
       - 'cli/**'
       - '.github/workflows/build-cli.yml'
+    tags:
+      - 'v*'
   pull_request:
     branches: [main]
     paths:
       - 'cli/**'
-  release:
-    types: [created]
+  workflow_dispatch:
 
 jobs:
   build-windows:
@@ -50,17 +51,6 @@ jobs:
         with:
           name: nex-windows-x64
           path: cli/build/Release/nex.exe
-      
-      - name: Upload to Release
-        if: github.event_name == 'release'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: cli/build/Release/nex.exe
-          asset_name: nex-windows-x64.exe
-          asset_content_type: application/octet-stream
 
   build-linux:
     runs-on: ubuntu-latest
@@ -90,17 +80,6 @@ jobs:
         with:
           name: nex-linux-x64
           path: cli/build/nex
-      
-      - name: Upload to Release
-        if: github.event_name == 'release'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: cli/build/nex
-          asset_name: nex-linux-x64
-          asset_content_type: application/octet-stream
 
   build-macos:
     runs-on: macos-latest
@@ -129,14 +108,80 @@ jobs:
         with:
           name: nex-macos-x64
           path: cli/build/nex
+
+  release:
+    needs: [build-windows, build-linux, build-macos]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    
+    permissions:
+      contents: write
+    
+    steps:
+      - uses: actions/checkout@v4
       
-      - name: Upload to Release
-        if: github.event_name == 'release'
-        uses: actions/upload-release-asset@v1
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: nex-windows-x64
+          path: artifacts/windows
+      
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: nex-linux-x64
+          path: artifacts/linux
+      
+      - name: Download macOS artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: nex-macos-x64
+          path: artifacts/macos
+      
+      - name: Prepare release assets
+        run: |
+          mkdir -p release
+          cp artifacts/windows/nex.exe release/nex-windows-x64.exe
+          cp artifacts/linux/nex release/nex-linux-x64
+          cp artifacts/macos/nex release/nex-macos-x64
+          chmod +x release/nex-linux-x64
+          chmod +x release/nex-macos-x64
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Nex ${{ github.ref_name }}
+          body: |
+            ## Nex ${{ github.ref_name }}
+            
+            ### Installation
+            
+            **Windows:**
+            ```powershell
+            # Download nex-windows-x64.exe and add to PATH
+            ```
+            
+            **Linux:**
+            ```bash
+            sudo curl -L -o /usr/local/bin/nex https://github.com/devkiraa/nex/releases/download/${{ github.ref_name }}/nex-linux-x64
+            sudo chmod +x /usr/local/bin/nex
+            ```
+            
+            **macOS:**
+            ```bash
+            sudo curl -L -o /usr/local/bin/nex https://github.com/devkiraa/nex/releases/download/${{ github.ref_name }}/nex-macos-x64
+            sudo chmod +x /usr/local/bin/nex
+            ```
+            
+            ### Verify Installation
+            ```
+            nex --version
+            ```
+          files: |
+            release/nex-windows-x64.exe
+            release/nex-linux-x64
+            release/nex-macos-x64
+          draft: false
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: cli/build/nex
-          asset_name: nex-macos-x64
-          asset_content_type: application/octet-stream
