@@ -68,162 +68,159 @@ try {
 ---
 
 <Layout title={`${manifest.name} | nex`} description={manifest.description}>
-  <div class="package-hero">
+  <div class="package-header">
     <div class="container">
-      <a href={`${import.meta.env.BASE_URL}packages`} class="back-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M19 12H5M12 19l-7-7 7-7"/>
-        </svg>
-        Back to packages
-      </a>
+      <div class="header-top">
+        <h1>{manifest.name}</h1>
+        <span class="version-tag">v{manifest.version}</span>
+        {manifest.license && <span class="license-tag">{manifest.license}</span>}
+      </div>
+      <p class="package-description">{manifest.description}</p>
       
-      <div class="hero-content">
-        <div class="hero-left">
-          <h1>{manifest.name}</h1>
-          <p class="package-id">{manifest.id}</p>
-          <p class="description">{manifest.description}</p>
-          
-          <div class="meta-row">
-            <span class="version-badge">v{manifest.version}</span>
-            {manifest.license && <span class="license-badge">{manifest.license}</span>}
-          </div>
-        </div>
-        
-        <div class="hero-right">
-          <div class="install-box">
-            <h4>Install</h4>
-            <div class="command-line">
-              <code id="install-cmd">nex install {manifest.id}</code>
-              <button class="copy-btn" data-copy={`nex install ${manifest.id}`} title="Copy">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2"/>
-                  <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
+      <div class="package-tabs">
+        <a href="#" class="tab active">Readme</a>
+        <a href="#" class="tab">Code</a>
+        <a href="#" class="tab">Dependencies</a>
+        <a href="#" class="tab">Versions</a>
       </div>
     </div>
   </div>
 
   <main class="container">
-    <div class="content-grid">
-      <div class="main-content">
-        <section class="section">
-          <h2>Usage</h2>
-          <div class="code-block">
-            <div class="code-header">
-              <span>Run this package</span>
-              <button class="copy-btn" data-copy={`nex run ${manifest.id}`}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2"/>
-                  <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-                </svg>
-              </button>
+    <div class="package-layout">
+      <div class="main-column">
+        <div class="readme-content">
+          <section class="markdown-section">
+            <h2>Usage</h2>
+            <div class="code-block">
+              <div class="code-header">
+                <span>Run this package</span>
+                <button class="copy-btn" data-copy={`nex run ${manifest.id}`}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                  </svg>
+                </button>
+              </div>
+              <pre><code>nex run {manifest.id}</code></pre>
             </div>
-            <pre><code>nex run {manifest.id}</code></pre>
-          </div>
-        </section>
+          </section>
 
-        {manifest.commands && Object.keys(manifest.commands).length > 0 && (
-          <section class="section">
-            <h2>Available Commands</h2>
-            <div class="commands-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Command</th>
-                    <th>Runs</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Object.entries(manifest.commands).map(([name, cmd]) => (
+          {manifest.commands && Object.keys(manifest.commands).length > 0 && (
+            <section class="markdown-section">
+              <h2>Available Commands</h2>
+              <div class="commands-table">
+                <table>
+                  <thead>
                     <tr>
-                      <td><code>nex run {manifest.id} {name}</code></td>
-                      <td><code class="cmd-value">{cmd}</code></td>
+                      <th>Command</th>
+                      <th>Runs</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
-        )}
+                  </thead>
+                  <tbody>
+                    {Object.entries(manifest.commands).map(([name, cmd]) => (
+                      <tr>
+                        <td><code>nex run {manifest.id} {name}</code></td>
+                        <td><code class="cmd-value">{cmd}</code></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          )}
 
-        {manifest.keywords && manifest.keywords.length > 0 && (
-          <section class="section">
-            <h2>Keywords</h2>
-            <div class="keywords">
-              {manifest.keywords.map((kw) => (
-                <span class="keyword">{kw}</span>
-              ))}
-            </div>
-          </section>
-        )}
+          {manifest.keywords && manifest.keywords.length > 0 && (
+            <section class="markdown-section">
+              <h2>Keywords</h2>
+              <div class="keywords-list">
+                {manifest.keywords.map((kw: string) => (
+                  <a href="#" class="keyword-tag">{kw}</a>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
       </div>
 
-      <aside class="sidebar">
-        <div class="sidebar-section">
+      <aside class="sidebar-column">
+        <div class="sidebar-block">
+          <h3>Install</h3>
+          <div class="install-cmd-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="cmd-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+            <code>nex install {manifest.id}</code>
+            <button class="copy-icon-btn" data-copy={`nex install ${manifest.id}`} title="Copy to clipboard">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="sidebar-block">
+          <h3>Repository</h3>
+          {manifest.repository ? (
+            <a href={manifest.repository} target="_blank" rel="noopener" class="sidebar-link">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+              <span>{manifest.repository.replace('https://github.com/', '')}</span>
+            </a>
+          ) : (
+            <span class="sidebar-text">No repository linked</span>
+          )}
+        </div>
+
+        <div class="sidebar-block">
           <h3>Details</h3>
-          <dl class="details-list">
+          <div class="sidebar-info">
             {manifest.author && (
-              <>
-                <dt>Author</dt>
-                <dd>
+              <div class="info-item">
+                <span class="label">Author</span>
+                <span class="value">
                   {typeof manifest.author === 'string' ? manifest.author : (
                     manifest.author.github ? (
                       <a href={`https://github.com/${manifest.author.github}`} target="_blank" rel="noopener">
-                        @{manifest.author.github}
+                        {manifest.author.name || manifest.author.github}
                       </a>
                     ) : manifest.author.name
                   )}
-                </dd>
-              </>
+                </span>
+              </div>
             )}
             
-            {manifest.version && (
-              <>
-                <dt>Version</dt>
-                <dd>{manifest.version}</dd>
-              </>
-            )}
+            <div class="info-item">
+              <span class="label">Version</span>
+              <span class="value">{manifest.version}</span>
+            </div>
 
             {manifest.license && (
-              <>
-                <dt>License</dt>
-                <dd>{manifest.license}</dd>
-              </>
+              <div class="info-item">
+                <span class="label">License</span>
+                <span class="value">{manifest.license}</span>
+              </div>
             )}
 
             {manifest.runtime && (
-              <>
-                <dt>Runtime</dt>
-                <dd>{manifest.runtime.type} {manifest.runtime.version}</dd>
-              </>
+              <div class="info-item">
+                <span class="label">Runtime</span>
+                <span class="value">{manifest.runtime.type} {manifest.runtime.version}</span>
+              </div>
             )}
-
-            {manifest.platforms && (
-              <>
-                <dt>Platforms</dt>
-                <dd class="platforms">
-                  {manifest.platforms.map((p) => (
-                    <span class="platform">{p}</span>
-                  ))}
-                </dd>
-              </>
-            )}
-          </dl>
+          </div>
         </div>
 
-        {manifest.repository && (
-          <div class="sidebar-section">
-            <h3>Repository</h3>
-            <a href={manifest.repository} target="_blank" rel="noopener" class="repo-link">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-              </svg>
-              View on GitHub
-            </a>
+        {manifest.platforms && (
+          <div class="sidebar-block">
+            <h3>Platforms</h3>
+            <div class="platforms-list">
+              {manifest.platforms.map((p: string) => (
+                <span class="platform-tag">{p}</span>
+              ))}
+            </div>
           </div>
         )}
       </aside>
@@ -232,185 +229,147 @@ try {
 </Layout>
 
 <style>
-  .package-hero {
-    background: linear-gradient(135deg, #cb3837 0%, #a02f2e 100%);
-    color: white;
-    padding: 2rem 1rem 3rem;
+  :root {
+    --header-bg: #ffffff;
+    --border-color: #e1e4e8;
+    --text-primary: #24292e;
+    --text-secondary: #586069;
+    --link-color: #0366d6;
+    --bg-gray: #f6f8fa;
   }
 
   .container {
-    max-width: 1200px;
+    max-width: 1280px;
     margin: 0 auto;
     padding: 0 1rem;
   }
 
-  main.container {
-    padding: 2rem 1rem;
+  /* Header Styles */
+  .package-header {
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding-top: 2rem;
   }
 
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: rgba(255,255,255,0.9);
-    text-decoration: none;
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-    transition: opacity 0.2s;
+  .header-top {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
   }
 
-  .back-link:hover {
-    opacity: 0.8;
+  .header-top h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
   }
 
-  .back-link svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .hero-content {
-    display: grid;
-    grid-template-columns: 1fr 350px;
-    gap: 2rem;
-    align-items: start;
-  }
-
-  .hero-left h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin: 0 0 0.5rem 0;
-  }
-
-  .package-id {
-    font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+  .version-tag {
+    color: var(--text-secondary);
     font-size: 1rem;
-    opacity: 0.9;
-    margin: 0 0 1rem 0;
+    font-family: var(--font-mono);
   }
 
-  .description {
+  .license-tag {
+    font-size: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2px 10px;
+    color: var(--text-secondary);
+  }
+
+  .package-description {
     font-size: 1.1rem;
-    line-height: 1.6;
-    opacity: 0.95;
-    margin: 0 0 1.5rem 0;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    max-width: 800px;
   }
 
-  .meta-row {
+  .package-tabs {
     display: flex;
-    gap: 0.75rem;
+    gap: 2rem;
   }
 
-  .version-badge,
-  .license-badge {
-    background: rgba(255,255,255,0.2);
-    padding: 0.35rem 0.75rem;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    font-weight: 500;
-  }
-
-  .install-box {
-    background: white;
-    border-radius: 8px;
-    padding: 1.5rem;
-    color: #333;
-  }
-
-  .install-box h4 {
-    font-size: 0.9rem;
-    color: #666;
-    margin: 0 0 0.75rem 0;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .command-line {
-    display: flex;
-    align-items: center;
-    background: #1a1a2e;
-    border-radius: 6px;
-    padding: 0.75rem 1rem;
-    gap: 0.5rem;
-  }
-
-  .command-line code {
-    flex: 1;
-    color: #00d9ff;
+  .tab {
+    text-decoration: none;
+    color: var(--text-secondary);
+    padding: 0.75rem 0.5rem;
     font-size: 0.95rem;
-    font-family: 'SF Mono', Monaco, 'Courier New', monospace;
-  }
-
-  .copy-btn {
-    background: transparent;
-    border: none;
-    color: #888;
-    cursor: pointer;
-    padding: 0.25rem;
-    border-radius: 4px;
+    border-bottom: 3px solid transparent;
     transition: all 0.2s;
   }
 
-  .copy-btn:hover {
-    color: #00d9ff;
-    background: rgba(255,255,255,0.1);
+  .tab:hover {
+    color: var(--text-primary);
   }
 
-  .copy-btn svg {
-    width: 18px;
-    height: 18px;
+  .tab.active {
+    color: var(--text-primary);
+    border-bottom-color: #cb3837;
+    font-weight: 500;
   }
 
-  .content-grid {
+  /* Main Layout */
+  .package-layout {
     display: grid;
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 350px;
     gap: 3rem;
+    padding: 2rem 0;
   }
 
-  .section {
+  /* Main Content */
+  .markdown-section {
     margin-bottom: 2.5rem;
   }
 
-  .section h2 {
-    font-size: 1.25rem;
+  .markdown-section h2 {
+    font-size: 1.5rem;
     font-weight: 600;
-    color: #333;
-    margin: 0 0 1rem 0;
+    margin-bottom: 1rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid #e1e1e1;
+    border-bottom: 1px solid var(--border-color);
   }
 
   .code-block {
-    background: #1a1a2e;
-    border-radius: 8px;
-    overflow: hidden;
+    background: #f6f8fa;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
   }
 
   .code-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.75rem 1rem;
-    background: rgba(255,255,255,0.05);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    background: #f1f3f5;
+    border-radius: 6px 6px 0 0;
   }
 
   .code-header span {
-    color: #888;
     font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
   }
 
   .code-block pre {
     margin: 0;
     padding: 1rem;
+    overflow-x: auto;
   }
 
   .code-block code {
-    color: #00d9ff;
-    font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--text-primary);
   }
 
+  /* Commands Table */
   .commands-table {
-    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
   }
 
   .commands-table table {
@@ -420,136 +379,188 @@ try {
 
   .commands-table th,
   .commands-table td {
-    text-align: left;
     padding: 0.75rem 1rem;
-    border-bottom: 1px solid #e1e1e1;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
   }
 
   .commands-table th {
-    background: #f7f7f7;
+    background: #f6f8fa;
     font-weight: 600;
-    color: #333;
+    font-size: 0.9rem;
   }
 
-  .commands-table code {
-    background: #f0f0f0;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.85rem;
+  .commands-table tr:last-child td {
+    border-bottom: none;
   }
 
   .cmd-value {
-    color: #666;
+    background: #f6f8fa;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
   }
 
-  .keywords {
+  /* Keywords */
+  .keywords-list {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
 
-  .keyword {
-    background: #f0f0f0;
-    color: #666;
-    padding: 0.35rem 0.75rem;
+  .keyword-tag {
+    text-decoration: none;
+    color: #cb3837;
+    background: #fff0f0;
+    padding: 0.3rem 0.8rem;
     border-radius: 4px;
-    font-size: 0.85rem;
-  }
-
-  .sidebar-section {
-    background: #f7f7f7;
-    border-radius: 8px;
-    padding: 1.25rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .sidebar-section h3 {
     font-size: 0.9rem;
-    font-weight: 600;
-    color: #333;
-    margin: 0 0 1rem 0;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+
+  .keyword-tag:hover {
+    background: #ffe0e0;
+  }
+
+  /* Sidebar */
+  .sidebar-block {
+    margin-bottom: 2rem;
+  }
+
+  .sidebar-block h3 {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
   }
 
-  .details-list {
-    margin: 0;
-  }
-
-  .details-list dt {
-    font-size: 0.85rem;
-    color: #666;
-    margin-bottom: 0.25rem;
-  }
-
-  .details-list dd {
-    margin: 0 0 1rem 0;
-    font-size: 0.95rem;
-    color: #333;
-  }
-
-  .details-list dd:last-child {
-    margin-bottom: 0;
-  }
-
-  .details-list a {
-    color: #cb3837;
-    text-decoration: none;
-  }
-
-  .details-list a:hover {
-    text-decoration: underline;
-  }
-
-  .platforms {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .platform {
-    background: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    border: 1px solid #e1e1e1;
-  }
-
-  .repo-link {
+  .install-cmd-box {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: #333;
+    background: #fff;
+    border: 1px solid var(--border-color);
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-primary);
+  }
+
+  .install-cmd-box code {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cmd-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--text-secondary);
+  }
+
+  .copy-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .copy-icon-btn:hover {
+    background: #f0f0f0;
+    color: var(--text-primary);
+  }
+
+  .copy-icon-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+
+  .sidebar-link:hover {
+    color: #cb3837;
+    text-decoration: underline;
+  }
+
+  .sidebar-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 0.5rem;
+  }
+
+  .info-item:last-child {
+    border-bottom: none;
+  }
+
+  .info-item .label {
+    color: var(--text-secondary);
     font-weight: 500;
   }
 
-  .repo-link:hover {
-    color: #cb3837;
+  .info-item .value {
+    color: var(--text-primary);
+    font-weight: 600;
+    text-align: right;
   }
 
-  .repo-link svg {
-    width: 20px;
-    height: 20px;
+  .info-item a {
+    color: var(--text-primary);
+    text-decoration: none;
   }
 
-  @media (max-width: 900px) {
-    .hero-content {
+  .info-item a:hover {
+    text-decoration: underline;
+  }
+
+  .platforms-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .platform-tag {
+    font-size: 0.8rem;
+    padding: 2px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .package-layout {
       grid-template-columns: 1fr;
     }
-
-    .content-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .sidebar {
+    
+    .sidebar-column {
       order: -1;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .hero-left h1 {
-      font-size: 1.75rem;
     }
   }
 </style>
