@@ -1,10 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import ErrorLayout from '../layouts/ErrorLayout.astro';
 
 const baseUrl = import.meta.env.BASE_URL;
 ---
 
-<Layout title="502 - Bad Gateway" description="Something went wrong with the server">
+<ErrorLayout title="502 - Bad Gateway" description="Something went wrong with the server">
   <div class="error-page">
     <div class="error-bg">
       <div class="error-grid"></div>
@@ -51,12 +51,12 @@ const baseUrl = import.meta.env.BASE_URL;
       </div>
     </div>
   </div>
-</Layout>
+</ErrorLayout>
 
 <style>
   .error-page {
     position: relative;
-    min-height: calc(100vh - 70px);
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
