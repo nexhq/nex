@@ -6,8 +6,6 @@ on:
     paths:
       - 'cli/**'
       - '.github/workflows/build-cli.yml'
-    tags:
-      - 'v*'
   pull_request:
     branches: [main]
     paths:
@@ -15,6 +13,39 @@ on:
   workflow_dispatch:
 
 jobs:
+  # Get version from nex.h
+  get-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+      should_release: ${{ steps.check_release.outputs.should_release }}
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Get version from nex.h
+        id: get_version
+        run: |
+          VERSION=$(grep '#define NEX_VERSION' cli/include/nex.h | sed 's/.*"\(.*\)".*/\1/')
+          echo "version=v${VERSION}" >> $GITHUB_OUTPUT
+          echo "Detected version: v${VERSION}"
+      
+      - name: Check if release needed
+        id: check_release
+        run: |
+          VERSION=${{ steps.get_version.outputs.version }}
+          
+          # Check if this tag already exists
+          if git rev-parse "$VERSION" >/dev/null 2>&1; then
+            echo "Tag $VERSION already exists, skipping release"
+            echo "should_release=false" >> $GITHUB_OUTPUT
+          else
+            echo "Tag $VERSION does not exist, will create release"
+            echo "should_release=true" >> $GITHUB_OUTPUT
+          fi
+
   build-windows:
     runs-on: windows-latest
     
@@ -110,9 +141,9 @@ jobs:
           path: cli/build/nex
 
   release:
-    needs: [build-windows, build-linux, build-macos]
+    needs: [get-version, build-windows, build-linux, build-macos]
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.get-version.outputs.should_release == 'true'
     
     permissions:
       contents: write
@@ -147,30 +178,51 @@ jobs:
           chmod +x release/nex-linux-x64
           chmod +x release/nex-macos-x64
       
+      - name: Create Git Tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag ${{ needs.get-version.outputs.version }}
+          git push origin ${{ needs.get-version.outputs.version }}
+      
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          name: Nex ${{ github.ref_name }}
+          tag_name: ${{ needs.get-version.outputs.version }}
+          name: Nex ${{ needs.get-version.outputs.version }}
           body: |
-            ## Nex ${{ github.ref_name }}
+            ## Nex ${{ needs.get-version.outputs.version }}
+            
+            ### What's New
+            
+            - Self-update feature: Run `nex self-update` to update the CLI
+            - Automatic update checks when running `nex update`
             
             ### Installation
             
             **Windows:**
             ```powershell
-            # Download nex-windows-x64.exe and add to PATH
+            # Download nex-windows-x64.exe and rename to nex.exe
+            # Add to a directory in your PATH
             ```
             
             **Linux:**
             ```bash
-            sudo curl -L -o /usr/local/bin/nex https://github.com/devkiraa/nex/releases/download/${{ github.ref_name }}/nex-linux-x64
+            sudo curl -L -o /usr/local/bin/nex https://github.com/devkiraa/nex/releases/download/${{ needs.get-version.outputs.version }}/nex-linux-x64
             sudo chmod +x /usr/local/bin/nex
             ```
             
             **macOS:**
             ```bash
-            sudo curl -L -o /usr/local/bin/nex https://github.com/devkiraa/nex/releases/download/${{ github.ref_name }}/nex-macos-x64
+            sudo curl -L -o /usr/local/bin/nex https://github.com/devkiraa/nex/releases/download/${{ needs.get-version.outputs.version }}/nex-macos-x64
             sudo chmod +x /usr/local/bin/nex
+            ```
+            
+            ### Updating
+            
+            If you already have nex installed, simply run:
+            ```bash
+            nex self-update
             ```
             
             ### Verify Installation
