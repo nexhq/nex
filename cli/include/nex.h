@@ -26,8 +26,8 @@
 #endif
 
 /* Version */
-#define NEX_VERSION "1.1.0"
-#define NEX_USER_AGENT "nex/1.1.0"
+#define NEX_VERSION "1.2.0"
+#define NEX_USER_AGENT "nex/1.2.0"
 
 /* Registry configuration */
 #define REGISTRY_BASE_URL "https://raw.githubusercontent.com/devkiraa/nex/main/registry"

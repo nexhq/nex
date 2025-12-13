@@ -10,10 +10,24 @@
 #include <string.h>
 #include "nex.h"
 
+static void print_banner(void) {
+    printf("\n");
+    printf("  \033[31m███╗   ██╗███████╗██╗  ██╗\033[0m\n");
+    printf("  \033[31m████╗  ██║██╔════╝╚██╗██╔╝\033[0m\n");
+    printf("  \033[31m██╔██╗ ██║█████╗   ╚███╔╝ \033[0m\n");
+    printf("  \033[31m██║╚██╗██║██╔══╝   ██╔██╗ \033[0m\n");
+    printf("  \033[31m██║ ╚████║███████╗██╔╝ ██╗\033[0m\n");
+    printf("  \033[31m╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝\033[0m\n");
+    printf("\n");
+    printf("  \033[90m⚡ Nimble Executor v%s\033[0m\n", NEX_VERSION);
+    printf("  \033[90m   Package manager for developer tools\033[0m\n");
+    printf("\n");
+}
+
 static void print_usage(void) {
-    printf("Nex v%s - Nimble Executor\n\n", NEX_VERSION);
+    print_banner();
     printf("Usage: nex <command> [options] [arguments]\n\n");
-    printf("Commands:\n");
+    printf("\033[33mCommands:\033[0m\n");
     printf("  install <package>      Install a package from the registry\n");
     printf("  run <package> [cmd]    Run a package command\n");
     printf("  update [package]       Update package(s) to latest version\n");
@@ -22,14 +36,15 @@ static void print_usage(void) {
     printf("  search <query>         Search the registry\n");
     printf("  info <package>         Show package details\n");
     printf("  self-update            Update nex CLI to latest version\n");
-    printf("\nOptions:\n");
+    printf("\n\033[33mOptions:\033[0m\n");
     printf("  -v, --version          Show version\n");
     printf("  -h, --help             Show this help message\n");
-    printf("\nExamples:\n");
+    printf("\n\033[33mExamples:\033[0m\n");
     printf("  nex install john.image-converter\n");
     printf("  nex run john.image-converter convert --input file.png\n");
     printf("  nex search \"python utility\"\n");
     printf("  nex self-update\n");
+    printf("\n");
 }
 
 static void print_version(void) {
