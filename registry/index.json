@@ -2,22 +2,5 @@
   "$schema": "./schema/index.schema.json",
   "version": "1.0",
   "updated": "2025-12-13T00:00:00Z",
-  "packages": [
-    {
-      "id": "devkiraa.pagepull",
-      "shortName": "pagepull",
-      "name": "PagePull",
-      "version": "0.0.1",
-      "description": "Pull entire websites for offline viewing. Single-file CLI tool with stealth mode and local server preview.",
-      "keywords": [
-        "website",
-        "downloader",
-        "offline",
-        "scraper",
-        "web",
-        "backup"
-      ],
-      "manifest": "packages/d/devkiraa/pagepull/manifest.json"
-    }
-  ]
+  "packages": []
 }
