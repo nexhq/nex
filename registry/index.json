@@ -4,19 +4,6 @@
   "updated": "2025-12-13T00:00:00Z",
   "packages": [
     {
-      "id": "example.hello-world",
-      "shortName": "hello-world",
-      "name": "Hello World",
-      "version": "1.0.0",
-      "description": "A simple example package demonstrating nex structure",
-      "keywords": [
-        "example",
-        "demo",
-        "hello"
-      ],
-      "manifest": "packages/e/example/hello-world/manifest.json"
-    },
-    {
       "id": "devkiraa.pagepull",
       "shortName": "pagepull",
       "name": "PagePull",
