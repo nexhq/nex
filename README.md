@@ -14,7 +14,7 @@
 **The AI-Native Package Manager for Developer Tools**
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.5.6-green.svg)](https://github.com/devkiraa/nex/releases)
+[![Version](https://img.shields.io/badge/version-1.6.0-green.svg)](https://github.com/devkiraa/nex/releases)
 [![Platform](https://img.shields.io/badge/platform-win%20%7C%20linux%20%7C%20macos-lightgrey.svg)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
@@ -47,12 +47,12 @@ Built for speed in C, Nex handles all the complexity of runtime detection, depen
 
 **Windows (PowerShell)**
 ```powershell
-iwr https://nex.sh/install.ps1 | iex
+iwr https://raw.githubusercontent.com/devkiraa/nex/main/cli/install.ps1 | iex
 ```
 
 **Linux / macOS**
 ```bash
-curl -fsSL https://nex.sh/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/devkiraa/nex/main/cli/install.sh | bash
 ```
 
 ### Basic Commands
@@ -90,11 +90,11 @@ Nex is a universal CLI tool runner that supports Python, Node.js, and Bash.
 
 ## 1. Package Structure
 A Nex package resides in a GitHub repository and must contain:
-1. `manifest.json`: Metadata and execution instructions.
+1. `nex.json`: Metadata and execution instructions.
 2. Source Code: The actual script implementation (e.g., main.py).
 3. Dependencies: `requirements.txt` (Python) or `package.json` (Node).
 
-## 2. Manifest Schema (manifest.json)
+## 2. Manifest Schema (nex.json)
 ```json
 {
   "$schema": "https://raw.githubusercontent.com/devkiraa/nex/main/registry/schema/package.schema.json",
@@ -116,7 +116,7 @@ A Nex package resides in a GitHub repository and must contain:
 
 ## 3. Your Task
 1. Write the code for the tool requested by the user.
-2. Generate the `manifest.json` following the schema above.
+2. Generate the `nex.json` following the schema above.
 3. Generate the dependency file (`requirements.txt`).
 4. Provide instructions to initialize using `nex init` and publish.
 
