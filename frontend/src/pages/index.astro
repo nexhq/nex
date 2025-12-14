@@ -141,27 +141,22 @@ const downloadLinks = {
         </div>
         <div class="install-content">
           <div class="install-panel active" id="windows">
-            <pre><code><span class="comment"># Download nex {releaseVersion}</span>
-curl -LO {downloadLinks.windows}
-
-<span class="comment"># Move into a folder on PATH</span>
-move .\nex-windows-x64.exe %USERPROFILE%\bin\nex.exe
+            <pre><code><span class="comment"># Install via PowerShell (admin not required)</span>
+iwr https://raw.githubusercontent.com/devkiraa/nex/main/cli/install.ps1 | iex
 
 <span class="comment"># Verify</span>
 nex --version</code></pre>
           </div>
           <div class="install-panel" id="linux">
-            <pre><code><span class="comment"># Download nex {releaseVersion}</span>
-curl -LO {downloadLinks.linux}
-sudo install -m 755 nex-linux-x64 /usr/local/bin/nex
+            <pre><code><span class="comment"># Install via Bash</span>
+curl -fsSL https://raw.githubusercontent.com/devkiraa/nex/main/cli/install.sh | bash
 
 <span class="comment"># Verify</span>
 nex --version</code></pre>
           </div>
           <div class="install-panel" id="mac">
-            <pre><code><span class="comment"># Download nex {releaseVersion}</span>
-curl -LO {downloadLinks.mac}
-sudo install -m 755 nex-macos-x64 /usr/local/bin/nex
+            <pre><code><span class="comment"># Install via Bash</span>
+curl -fsSL https://raw.githubusercontent.com/devkiraa/nex/main/cli/install.sh | bash
 
 <span class="comment"># Verify</span>
 nex --version</code></pre>
