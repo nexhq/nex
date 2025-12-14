@@ -5,6 +5,11 @@
 #include "nex.h"
 #include "cJSON.h"
 
+/* Windows compatibility */
+#ifdef _WIN32
+#define strcasecmp _stricmp
+#endif
+
 /* Build manifest URL from package ID */
 static int build_manifest_url(const char *package_id, char *url, size_t url_size) {
     /* Package ID format: author.package-name */

@@ -4,25 +4,47 @@
   "title": "Nex Package Manifest",
   "description": "Schema for nex package manifest files",
   "type": "object",
-  "required": ["id", "name", "version", "description", "repository", "runtime", "entrypoint"],
+  "required": [
+    "id",
+    "name",
+    "version",
+    "description",
+    "repository",
+    "runtime",
+    "entrypoint"
+  ],
   "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema reference"
+    },
     "id": {
       "type": "string",
       "pattern": "^[a-z0-9][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$",
       "description": "Unique package identifier in author.package-name format (lowercase, hyphens allowed)",
-      "examples": ["john.image-converter", "acme.data-utils"]
+      "examples": [
+        "john.image-converter",
+        "acme.data-utils"
+      ]
     },
     "name": {
       "type": "string",
       "maxLength": 100,
       "description": "Human-readable display name for the package",
-      "examples": ["Image Converter", "Data Utilities"]
+      "examples": [
+        "Image Converter",
+        "Data Utilities"
+      ]
     },
     "version": {
       "type": "string",
       "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9.]+)?(\\+[a-zA-Z0-9.]+)?$",
       "description": "Semantic version (semver) of the package",
-      "examples": ["1.0.0", "2.1.0-beta.1", "1.0.0+build.123"]
+      "examples": [
+        "1.0.0",
+        "2.1.0-beta.1",
+        "1.0.0+build.123"
+      ]
     },
     "description": {
       "type": "string",
@@ -37,7 +59,9 @@
         },
         {
           "type": "object",
-          "required": ["name"],
+          "required": [
+            "name"
+          ],
           "properties": {
             "name": {
               "type": "string",
@@ -65,7 +89,11 @@
     "license": {
       "type": "string",
       "description": "SPDX license identifier",
-      "examples": ["MIT", "Apache-2.0", "GPL-3.0"]
+      "examples": [
+        "MIT",
+        "Apache-2.0",
+        "GPL-3.0"
+      ]
     },
     "homepage": {
       "type": "string",
@@ -80,24 +108,41 @@
     },
     "runtime": {
       "type": "object",
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["python", "node", "bash", "powershell", "binary", "go"],
+          "enum": [
+            "python",
+            "node",
+            "bash",
+            "powershell",
+            "binary",
+            "go"
+          ],
           "description": "The runtime environment required to execute the package"
         },
         "version": {
           "type": "string",
           "description": "Required runtime version (e.g., '>=3.8' for Python)",
-          "examples": [">=3.8", ">=18.0.0", ">=1.20"]
+          "examples": [
+            ">=3.8",
+            ">=18.0.0",
+            ">=1.20"
+          ]
         }
       }
     },
     "entrypoint": {
       "type": "string",
       "description": "Main file to execute (relative to package root)",
-      "examples": ["main.py", "index.js", "cli.py"]
+      "examples": [
+        "main.py",
+        "index.js",
+        "cli.py"
+      ]
     },
     "commands": {
       "type": "object",
@@ -118,17 +163,23 @@
       "properties": {
         "system": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Required system tools (e.g., 'git', 'ffmpeg')"
         },
         "python": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Python package dependencies with version specifiers"
         },
         "node": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Node.js package dependencies"
         }
       },
@@ -147,7 +198,11 @@
       "type": "array",
       "items": {
         "type": "string",
-        "enum": ["windows", "linux", "macos"]
+        "enum": [
+          "windows",
+          "linux",
+          "macos"
+        ]
       },
       "description": "Supported operating systems (defaults to all if not specified)"
     },
@@ -155,22 +210,37 @@
       "type": "array",
       "items": {
         "type": "string",
-        "enum": ["x64", "x86", "arm64", "arm"]
+        "enum": [
+          "x64",
+          "x86",
+          "arm64",
+          "arm"
+        ]
       },
       "description": "Supported CPU architectures"
     },
     "files": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "description": "Files/directories to include when installing (glob patterns supported)"
     },
     "scripts": {
       "type": "object",
       "properties": {
-        "preinstall": { "type": "string" },
-        "postinstall": { "type": "string" },
-        "preuninstall": { "type": "string" },
-        "postuninstall": { "type": "string" }
+        "preinstall": {
+          "type": "string"
+        },
+        "postinstall": {
+          "type": "string"
+        },
+        "preuninstall": {
+          "type": "string"
+        },
+        "postuninstall": {
+          "type": "string"
+        }
       },
       "description": "Lifecycle scripts"
     }

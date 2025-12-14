@@ -41,13 +41,17 @@ jobs:
           if git rev-parse "$VERSION" >/dev/null 2>&1; then
             echo "Tag $VERSION already exists, skipping release"
             echo "should_release=false" >> $GITHUB_OUTPUT
+            echo "::notice::Version $VERSION already released. Skipping build. Update NEX_VERSION in cli/include/nex.h to trigger a new build."
           else
             echo "Tag $VERSION does not exist, will create release"
             echo "should_release=true" >> $GITHUB_OUTPUT
+            echo "::notice::New version $VERSION detected. Building for all platforms..."
           fi
 
   build-windows:
+    needs: get-version
     runs-on: windows-latest
+    if: needs.get-version.outputs.should_release == 'true' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
     
     steps:
       - uses: actions/checkout@v4
@@ -84,7 +88,9 @@ jobs:
           path: cli/build/Release/nex.exe
 
   build-linux:
+    needs: get-version
     runs-on: ubuntu-latest
+    if: needs.get-version.outputs.should_release == 'true' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
     
     steps:
       - uses: actions/checkout@v4
@@ -113,7 +119,9 @@ jobs:
           path: cli/build/nex
 
   build-macos:
+    needs: get-version
     runs-on: macos-latest
+    if: needs.get-version.outputs.should_release == 'true' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
     
     steps:
       - uses: actions/checkout@v4
