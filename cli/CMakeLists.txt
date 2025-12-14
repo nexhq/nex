@@ -46,9 +46,10 @@ target_include_directories(nex PRIVATE
 # Link libraries
 target_link_libraries(nex ${CURL_LIBRARIES})
 
-# Unix-specific settings (link math library for cJSON)
+# Unix-specific settings
 if(UNIX)
     target_link_libraries(nex m)
+    target_compile_options(nex PRIVATE -Wall -Wextra -Wno-format-truncation -Wno-unused-result)
 endif()
 
 # Windows-specific settings

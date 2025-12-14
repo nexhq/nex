@@ -504,7 +504,7 @@ int package_execute(const char *package_id, const char *command, int argc, char 
             /* Replace "python " with "python3 " in the command */
             char temp_cmd[MAX_COMMAND_LEN];
             char *pos = strstr(exec_cmd, "python ");
-            if (pos == exec_cmd || (pos && *(pos-1) == ' ' || *(pos-1) == '&')) {
+            if (pos == exec_cmd || (pos && (*(pos-1) == ' ' || *(pos-1) == '&'))) {
                 size_t prefix_len = pos - exec_cmd;
                 strncpy(temp_cmd, exec_cmd, prefix_len);
                 temp_cmd[prefix_len] = '\0';

@@ -93,16 +93,9 @@ static int find_asset_url(const char *json, char *url, size_t url_size) {
     
     /* Search backwards for "browser_download_url" */
     const char *search_start = json;
-    const char *found_url = NULL;
     
-    while (1) {
-        const char *url_key = strstr(search_start, "\"browser_download_url\"");
-        if (!url_key || url_key > asset_pos) {
-            break;
-        }
-        found_url = url_key;
-        search_start = url_key + 1;
-    }
+    /* Search for "browser_download_url" near the asset match */
+    (void)search_start; /* Mark as unused */
     
     /* Now search forward from asset position for the URL */
     const char *url_key = strstr(asset_pos - 200 > json ? asset_pos - 200 : json, "\"browser_download_url\"");
