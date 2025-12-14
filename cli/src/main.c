@@ -109,7 +109,7 @@ static void print_usage(void) {
     print_banner();
     print_runtimes();
     printf("Usage: nex <command> [options] [arguments]\n\n");
-    printf("\033[33mCommands:\033[0m\n");
+    printf("\033[33mPackage Commands:\033[0m\n");
     printf("  install <package>      Install a package from the registry\n");
     printf("  run <package> [cmd]    Run a package command\n");
     printf("  update [package]       Update package(s) to latest version\n");
@@ -117,6 +117,12 @@ static void print_usage(void) {
     printf("  list                   List installed packages\n");
     printf("  search <query>         Search the registry\n");
     printf("  info <package>         Show package details\n");
+    printf("\n\033[33mDeveloper Commands:\033[0m\n");
+    printf("  init                   Create a new package\n");
+    printf("  publish                Submit package to registry\n");
+    printf("\n\033[33mConfiguration:\033[0m\n");
+    printf("  config [key] [value]   Manage nex settings\n");
+    printf("  alias [name] [pkg]     Manage package shortcuts\n");
     printf("  self-update            Update nex CLI to latest version\n");
     printf("\n\033[33mOptions:\033[0m\n");
     printf("  -v, --version          Show version\n");
@@ -124,8 +130,8 @@ static void print_usage(void) {
     printf("\n\033[33mExamples:\033[0m\n");
     printf("  nex install pagepull\n");
     printf("  nex run pagepull --url https://example.com\n");
-    printf("  nex search \"website downloader\"\n");
-    printf("  nex self-update\n");
+    printf("  nex alias pp pagepull && nex run pp\n");
+    printf("  nex init\n");
     printf("\n");
 }
 
@@ -190,6 +196,18 @@ int main(int argc, char *argv[]) {
     }
     else if (strcmp(command, "info") == 0) {
         result = cmd_info(argc - 2, argv + 2);
+    }
+    else if (strcmp(command, "init") == 0) {
+        result = cmd_init(argc - 2, argv + 2);
+    }
+    else if (strcmp(command, "config") == 0) {
+        result = cmd_config(argc - 2, argv + 2);
+    }
+    else if (strcmp(command, "alias") == 0) {
+        result = cmd_alias(argc - 2, argv + 2);
+    }
+    else if (strcmp(command, "publish") == 0) {
+        result = cmd_publish(argc - 2, argv + 2);
     }
     else if (strcmp(command, "self-update") == 0) {
         result = cmd_self_update(argc - 2, argv + 2);

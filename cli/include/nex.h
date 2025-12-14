@@ -26,8 +26,8 @@
 #endif
 
 /* Version */
-#define NEX_VERSION "1.4.0"
-#define NEX_USER_AGENT "nex/1.4.0"
+#define NEX_VERSION "1.5.0"
+#define NEX_USER_AGENT "nex/1.5.0"
 
 /* Registry configuration */
 #define REGISTRY_BASE_URL "https://raw.githubusercontent.com/devkiraa/nex/main/registry"
@@ -103,6 +103,10 @@ int cmd_list(int argc, char *argv[]);
 int cmd_search(int argc, char *argv[]);
 int cmd_info(int argc, char *argv[]);
 int cmd_self_update(int argc, char *argv[]);
+int cmd_init(int argc, char *argv[]);
+int cmd_config(int argc, char *argv[]);
+int cmd_alias(int argc, char *argv[]);
+int cmd_publish(int argc, char *argv[]);
 
 /* Self-update helpers */
 int nex_check_for_updates(int *update_available, char *latest_version, size_t version_size);

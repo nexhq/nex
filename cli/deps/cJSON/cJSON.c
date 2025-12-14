@@ -479,6 +479,31 @@ CJSON_PUBLIC(void) cJSON_DeleteItemFromArray(cJSON *array, int which) {
     cJSON_Delete(cJSON_DetachItemFromArray(array, which));
 }
 
+CJSON_PUBLIC(cJSON *) cJSON_DetachItemFromObject(cJSON *object, const char *string) {
+    cJSON *c = NULL;
+    if (object == NULL || string == NULL) return NULL;
+    c = object->child;
+    while (c) {
+        if (c->string && strcasecmp(c->string, string) == 0) {
+            if (c->prev) c->prev->next = c->next;
+            if (c->next) c->next->prev = c->prev;
+            if (c == object->child) object->child = c->next;
+            c->prev = c->next = NULL;
+            return c;
+        }
+        c = c->next;
+    }
+    return NULL;
+}
+
+CJSON_PUBLIC(void) cJSON_DeleteItemFromObject(cJSON *object, const char *string) {
+    cJSON_Delete(cJSON_DetachItemFromObject(object, string));
+}
+
+CJSON_PUBLIC(cJSON_bool) cJSON_HasObjectItem(const cJSON *object, const char *string) {
+    return cJSON_GetObjectItem(object, string) != NULL ? 1 : 0;
+}
+
 /* Print - simple implementation */
 static char *print_string(const char *str) {
     size_t len = strlen(str);
