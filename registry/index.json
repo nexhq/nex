@@ -4,19 +4,6 @@
   "updated": "2025-12-13T00:00:00Z",
   "packages": [
     {
-      "id": "recon.paramspider",
-      "shortName": "paramspider",
-      "name": "ParamSpider",
-      "version": "0.1.0",
-      "description": "Crawls a site to find URL parameters reflecting input, finding potential injection points.",
-      "author": "User",
-      "category": "General",
-      "keywords": [],
-      "manifest": "packages/r/recon/paramspider/nex.json",
-      "repository": "https://github.com/nexhq/nex-pakages.git",
-      "updatedAt": "2025-12-14T14:59:21.301Z"
-    },
-    {
       "id": "network.lanmap",
       "shortName": "lanmap",
       "name": "LanMap",
