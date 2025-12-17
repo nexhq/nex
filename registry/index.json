@@ -2,26 +2,5 @@
   "$schema": "./schema/index.schema.json",
   "version": "1.0",
   "updated": "2025-12-13T00:00:00Z",
-  "packages": [
-    {
-      "id": "network.lanmap",
-      "shortName": "lanmap",
-      "name": "LanMap",
-      "version": "0.1.0",
-      "description": "Fast ARP scan of the local subnet to list all active devices using Python.",
-      "author": {
-        "name": "DevKira"
-      },
-      "category": "General",
-      "keywords": [
-        "arp",
-        "scan",
-        "network",
-        "recon"
-      ],
-      "manifest": "packages/n/network/lanmap/nex.json",
-      "repository": "https://github.com/nexhq/nex-pakages.git",
-      "updatedAt": "2025-12-15T01:26:23.383Z"
-    }
-  ]
+  "packages": []
 }
