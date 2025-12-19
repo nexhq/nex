@@ -7,15 +7,18 @@
 #include <ctype.h>
 #include <errno.h>
 
-/* ANSI color codes */
-#ifdef _WIN32
-#include <windows.h>
+/* ANSI color codes shared definition */
 static int colors_enabled = 0;
 
-static void enable_colors(void) {
+#ifdef _WIN32
+#include <windows.h>
+void console_init(void) {
     static int checked = 0;
     if (checked) return;
     checked = 1;
+
+    /* Set proper encoding for box drawing characters */
+    SetConsoleOutputCP(65001); // UTF-8
     
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     DWORD mode = 0;
@@ -29,23 +32,21 @@ static void enable_colors(void) {
         }
     }
 }
+#else
+void console_init(void) {
+    /* Always enable colors on Unix-like systems, or check isatty here if desired */
+    colors_enabled = 1; 
+}
+#endif
 
 #define COLOR_RED     (colors_enabled ? "\033[31m" : "")
 #define COLOR_GREEN   (colors_enabled ? "\033[32m" : "")
 #define COLOR_YELLOW  (colors_enabled ? "\033[33m" : "")
 #define COLOR_BLUE    (colors_enabled ? "\033[34m" : "")
 #define COLOR_RESET   (colors_enabled ? "\033[0m" : "")
-#else
-#define COLOR_RED     "\033[31m"
-#define COLOR_GREEN   "\033[32m"
-#define COLOR_YELLOW  "\033[33m"
-#define COLOR_BLUE    "\033[34m"
-#define COLOR_RESET   "\033[0m"
-static void enable_colors(void) {}
-#endif
 
 void print_error(const char *fmt, ...) {
-    enable_colors();
+    console_init();
     fprintf(stderr, "%s[ERROR]%s ", COLOR_RED, COLOR_RESET);
     
     va_list args;
@@ -53,11 +54,12 @@ void print_error(const char *fmt, ...) {
     vfprintf(stderr, fmt, args);
     va_end(args);
     
+
     fprintf(stderr, "\n");
 }
 
 void print_success(const char *fmt, ...) {
-    enable_colors();
+    console_init();
     printf("%s[OK]%s ", COLOR_GREEN, COLOR_RESET);
     
     va_list args;
@@ -69,7 +71,7 @@ void print_success(const char *fmt, ...) {
 }
 
 void print_info(const char *fmt, ...) {
-    enable_colors();
+    console_init();
     printf("%s[INFO]%s ", COLOR_BLUE, COLOR_RESET);
     
     va_list args;

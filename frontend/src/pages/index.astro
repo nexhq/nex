@@ -1,23 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-// Fetch packages from registry (at build time)
-const registryUrl = 'https://raw.githubusercontent.com/nexhq/nex/main/registry/index.json';
-let packages = [];
+// Import local registry directly to reflect local changes immediately
+import localRegistry from '../../../../registry/index.json';
+
+// Use local registry packages
+let packages = localRegistry.packages || [];
 let error = null;
 
-try {
-  const response = await fetch(registryUrl);
-  const data = await response.json();
-  packages = data.packages || [];
-} catch (e) {
-  error = e.message;
-  packages = [];
-}
-
 // Fetch latest release version from GitHub
-const githubReleasesApi = 'https://api.github.com/repos/devkiraa/nex/releases/latest';
-let releaseVersion = 'v1.0.0'; // fallback
+const githubReleasesApi = 'https://api.github.com/repos/nexhq/nex/releases/latest';
+let releaseVersion = 'v1.8.0'; // Default to current version
 let releaseDate = '';
 
 try {
@@ -29,7 +22,7 @@ try {
   });
   if (releaseResponse.ok) {
     const releaseData = await releaseResponse.json();
-    releaseVersion = releaseData.tag_name || 'v1.0.0';
+    releaseVersion = releaseData.tag_name || 'v1.8.0';
     releaseDate = releaseData.published_at ? new Date(releaseData.published_at).toLocaleDateString() : '';
   }
 } catch (e) {

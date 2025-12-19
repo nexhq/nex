@@ -33,6 +33,7 @@ static void sanitize_name(char *str) {
 }
 
 int cmd_init(int argc, char *argv[]) {
+    console_init();
     int yes_mode = 0;
     
     /* Check for -y/--yes flag */

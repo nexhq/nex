@@ -26,8 +26,8 @@
 #endif
 
 /* Version */
-#define NEX_VERSION "1.8.0"
-#define NEX_USER_AGENT "nex/1.8.0"
+#define NEX_VERSION "1.8.1"
+#define NEX_USER_AGENT "nex/1.8.1"
 
 /* Registry configuration */
 #define REGISTRY_BASE_URL "https://raw.githubusercontent.com/nexhq/nex/main/registry"
@@ -142,6 +142,7 @@ int config_remove_local_package(const char *package_id);
 int config_list_installed(LocalPackage **packages, int *count);
 
 /* Utilities (utils/utils.c) */
+void console_init(void);
 void print_error(const char *fmt, ...);
 void print_success(const char *fmt, ...);
 void print_info(const char *fmt, ...);
