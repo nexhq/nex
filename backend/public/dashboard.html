@@ -321,7 +321,7 @@
             const userStr = localStorage.getItem('user');
 
             if (!token || !userStr) {
-                window.location.href = '/index.html';
+                window.location.href = '/login.html';
                 return;
             }
 
@@ -470,7 +470,7 @@
         function logout() {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            window.location.href = '/index.html';
+            window.location.href = '/login.html';
         }
     </script>
 </body>

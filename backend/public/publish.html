@@ -99,14 +99,14 @@
         const token = localStorage.getItem('token');
         const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-        if (!token) window.location.href = '/index.html';
+        if (!token) window.location.href = '/login.html';
 
         document.getElementById('username').innerText = user.username ? `Logged in as ${user.username} ` : '';
 
         function logout() {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            window.location.href = '/index.html';
+            window.location.href = '/login.html';
         }
 
         async function publish() {

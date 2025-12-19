@@ -1,0 +1,555 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Package Details | nex" description="View package details">
+  <div id="loading-state" class="container loading-container">
+    <div class="spinner"></div>
+    <p>Loading package details...</p>
+  </div>
+
+  <div id="error-state" class="container error-container" style="display: none;">
+    <h1>Package Not Found</h1>
+    <p>The package you are looking for does not exist or could not be loaded.</p>
+    <a href="/" class="btn btn-primary">Back to Home</a>
+  </div>
+
+  <div id="package-content" style="display: none;">
+    <div class="package-header">
+      <div class="container">
+        <div class="header-top">
+          <h1 id="pkg-name">Package Name</h1>
+          <span id="pkg-version" class="version-tag">v0.0.0</span>
+          <span id="pkg-license" class="license-tag" style="display:none;">License</span>
+        </div>
+        <p id="pkg-desc" class="package-description">Description goes here...</p>
+        
+        <div class="package-tabs">
+          <button class="tab active" data-target="readme">Readme</button>
+          <button class="tab" data-target="dependencies">Dependencies</button>
+          <button class="tab" data-target="versions">Versions</button>
+        </div>
+      </div>
+    </div>
+
+    <main class="container">
+      <div class="package-layout">
+        <div class="main-column">
+          <div class="main-content-wrapper">
+            <div id="tab-readme" class="tab-content active">
+              <section class="quick-start-section">
+                <div class="quick-start-card">
+                  <div class="qs-left">
+                    <div class="qs-label-row">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="qs-icon">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                          </svg>
+                      <h3>Quick Start</h3>
+                    </div>
+                    <p>Run instantly with nex:</p>
+                  </div>
+                  <div class="qs-right">
+                    <div class="qs-cmd">
+                      <span class="qs-prompt">$</span>
+                      <code id="qs-cmd-text">nex run package</code>
+                    </div>
+                    <button class="copy-icon-btn qs-copy" id="qs-copy-btn" title="Copy run command">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2"/>
+                            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                          </svg>
+                    </button>
+                  </div>
+                </div>
+              </section>
+
+              <section id="screenshots-section" class="screenshots-section" style="display:none;">
+                <h2>Preview</h2>
+                <div id="screenshots-grid" class="screenshots-grid"></div>
+              </section>
+    
+              <section id="commands-section" class="markdown-section" style="display:none;">
+                <h2>Available Commands</h2>
+                <div class="commands-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Command</th>
+                        <th>Runs</th>
+                      </tr>
+                    </thead>
+                    <tbody id="commands-body"></tbody>
+                  </table>
+                </div>
+              </section>
+    
+              <section id="keywords-section" class="markdown-section" style="display:none;">
+                <h2>Keywords</h2>
+                <div id="keywords-list" class="keywords-list"></div>
+              </section>
+            </div>
+
+            <div id="tab-versions" class="tab-content" style="display: none;">
+                <section class="markdown-section">
+                  <h2>Version History</h2>
+                  <div id="versions-list" class="versions-list"></div>
+                  <p id="no-versions" class="empty-text" style="display:none;">No version history available.</p>
+                </section>
+            </div>
+  
+            <div id="tab-dependencies" class="tab-content" style="display: none;">
+                <section class="markdown-section">
+                  <h2>Dependencies</h2>
+                  <div id="dep-graph" class="dependency-graph"></div>
+                  <p id="no-deps" class="empty-text" style="display:none;">No dependencies.</p>
+                </section>
+            </div>
+          </div>
+        </div>
+
+        <aside class="sidebar-column">
+          <div class="sidebar-block">
+            <h3>Install</h3>
+            <div class="install-cmd-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="cmd-icon">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                  </svg>
+              <code id="install-cmd-text">nex install package</code>
+              <button class="copy-icon-btn" id="install-copy-btn" title="Copy to clipboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                  </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="sidebar-block">
+            <h3>Resources</h3>
+            <div id="resource-links" class="resource-links"></div>
+          </div>
+
+          <div class="sidebar-block">
+            <h3>Details</h3>
+            <div class="sidebar-info">
+              <div id="author-info" class="info-item" style="display:none;">
+                <span class="label">Author</span>
+                <span class="value" id="author-val"></span>
+              </div>
+              
+              <div class="info-item">
+                <span class="label">Version</span>
+                <span id="meta-version" class="value"></span>
+              </div>
+
+              <div id="license-info" class="info-item" style="display:none;">
+                <span class="label">License</span>
+                <span id="meta-license" class="value"></span>
+              </div>
+
+              <div id="runtime-info" class="info-item" style="display:none;">
+                <span class="label">Runtime</span>
+                <span id="meta-runtime" class="value"></span>
+              </div>
+            </div>
+          </div>
+
+          <div id="platforms-block" class="sidebar-block" style="display:none;">
+            <h3>Platforms</h3>
+            <div id="platforms-list" class="platforms-list"></div>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+</Layout>
+
+<script>
+  // Isolate script scope
+  (async function() {
+    const loadingState = document.getElementById('loading-state');
+    const errorState = document.getElementById('error-state');
+    const contentState = document.getElementById('package-content');
+
+    // Extract ID from path: /packages/:id
+    const pathParts = window.location.pathname.split('/');
+    // Handle trailing slash
+    let id = pathParts.pop() || pathParts.pop(); 
+    // If visited via /packages/view/index.html explicitly (shouldn't happen with proper routing)
+    if (id === 'index.html') id = pathParts.pop(); // view
+    if (id === 'view') id = new URLSearchParams(window.location.search).get('id');
+
+    // Fallback if ID is suspiciously generic or missing
+    if (!id || id === 'packages') {
+       // Search param fallback
+       const urlParams = new URLSearchParams(window.location.search);
+       id = urlParams.get('id');
+    }
+
+    if (!id) {
+        showError();
+        return;
+    }
+
+    const manifestUrl = `https://nex-9ujp.onrender.com/api/packages/${id}`;
+    //const manifestUrl = `http://localhost:5000/api/packages/${id}`; // Use absolute prod URL as per user instruction
+
+    try {
+        const response = await fetch(manifestUrl);
+        if (!response.ok) {
+            if (response.status === 404) console.error("Package not found");
+            throw new Error(`API Error ${response.status}`);
+        }
+        const manifest = await response.json();
+        renderPackage(manifest);
+    } catch (e) {
+        console.error(e);
+        showError();
+    }
+
+    function showError() {
+        loadingState.style.display = 'none';
+        errorState.style.display = 'block';
+    }
+
+    function renderPackage(pkg) {
+        // Hide loading, show content
+        loadingState.style.display = 'none';
+        contentState.style.display = 'block';
+
+        // Header
+        document.title = `${pkg.name} | nex`;
+        document.getElementById('pkg-name').textContent = pkg.name;
+        document.getElementById('pkg-version').textContent = `v${pkg.version}`;
+        if (pkg.license) {
+            const licEl = document.getElementById('pkg-license');
+            licEl.textContent = pkg.license;
+            licEl.style.display = 'inline-block';
+            
+            const metaLicEl = document.getElementById('license-info');
+            metaLicEl.style.display = 'flex';
+            document.getElementById('meta-license').textContent = pkg.license;
+        }
+        document.getElementById('pkg-desc').textContent = pkg.description || 'No description provided.';
+        
+        // Quick Start
+        const runCmd = `nex run ${pkg.name.toLowerCase()}`;
+        document.getElementById('qs-cmd-text').textContent = runCmd;
+        document.getElementById('qs-copy-btn').setAttribute('data-copy', runCmd);
+
+        // Install
+        const installCmd = `nex install ${pkg.name.toLowerCase()}`;
+        document.getElementById('install-cmd-text').textContent = installCmd;
+        document.getElementById('install-copy-btn').setAttribute('data-copy', installCmd);
+        
+        // Metadata
+        document.getElementById('meta-version').textContent = pkg.version;
+        
+        if (pkg.author) {
+            const authEl = document.getElementById('author-info');
+            authEl.style.display = 'flex';
+            const authVal = document.getElementById('author-val');
+            let authName = typeof pkg.author === 'string' ? pkg.author : pkg.author.name;
+            let authGithub = typeof pkg.author === 'object' ? pkg.author.github : null;
+            
+            if (authGithub) {
+                authVal.innerHTML = `<a href="https://github.com/${authGithub}" target="_blank" rel="noopener">${authName || authGithub}</a>`;
+            } else {
+                authVal.textContent = authName || 'Unknown';
+            }
+        }
+
+        if (pkg.runtime) {
+             const rtEl = document.getElementById('runtime-info');
+             rtEl.style.display = 'flex';
+             document.getElementById('meta-runtime').textContent = `${pkg.runtime.type || ''} ${pkg.runtime.version || ''}`;
+        }
+
+        // Keywords
+        if (pkg.keywords && pkg.keywords.length > 0) {
+            const kwList = document.getElementById('keywords-list');
+            document.getElementById('keywords-section').style.display = 'block';
+            pkg.keywords.forEach(kw => {
+                const span = document.createElement('span');
+                span.className = 'keyword-tag';
+                span.textContent = kw;
+                kwList.appendChild(span);
+            });
+        }
+
+        // Platforms
+        if (pkg.platforms && pkg.platforms.length > 0) {
+            const plList = document.getElementById('platforms-list');
+            document.getElementById('platforms-block').style.display = 'block';
+            pkg.platforms.forEach(p => {
+                const span = document.createElement('span');
+                span.className = 'platform-tag';
+                span.textContent = p;
+                plList.appendChild(span);
+            });
+        }
+
+        // Screenshots
+        if (pkg.screenshots && pkg.screenshots.length > 0) {
+            document.getElementById('screenshots-section').style.display = 'block';
+            const grid = document.getElementById('screenshots-grid');
+            pkg.screenshots.forEach(s => {
+                const fig = document.createElement('figure');
+                fig.className = 'screenshot-item';
+                const img = document.createElement('img');
+                img.src = s.url;
+                img.alt = s.caption || 'Screenshot';
+                img.loading = 'lazy';
+                fig.appendChild(img);
+                if (s.caption) {
+                    const cap = document.createElement('figcaption');
+                    cap.textContent = s.caption;
+                    fig.appendChild(cap);
+                }
+                grid.appendChild(fig);
+            });
+        }
+
+        // Commands
+        if (pkg.commands && Object.keys(pkg.commands).length > 0) {
+            document.getElementById('commands-section').style.display = 'block';
+            const tbody = document.getElementById('commands-body');
+            Object.entries(pkg.commands).forEach(([name, cmd]) => {
+                const tr = document.createElement('tr');
+                const runName = name === 'default' ? '' : name;
+                tr.innerHTML = `<td><code>nex run ${pkg.name.toLowerCase()} ${runName}</code></td>
+                                <td><code class="cmd-value">${cmd}</code></td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Resources
+        const resLinks = document.getElementById('resource-links');
+        
+        if (pkg.repository) {
+             const a = document.createElement('a');
+             a.href = pkg.repository;
+             a.target = '_blank';
+             a.rel = 'noopener';
+             a.className = 'resource-link';
+             a.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg><span>Repository</span>`;
+             resLinks.appendChild(a);
+
+             if (pkg.repository.includes('github.com')) {
+                const issuesLink = document.createElement('a');
+                issuesLink.href = pkg.repository.replace(/\.git$/, '') + '/issues';
+                issuesLink.target = '_blank';
+                issuesLink.rel = 'noopener';
+                issuesLink.className = 'resource-link';
+                issuesLink.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg><span>Issues</span>`;
+                resLinks.appendChild(issuesLink);
+             }
+        }
+        if (pkg.homepage) {
+             const a = document.createElement('a');
+             a.href = pkg.homepage;
+             a.target = '_blank';
+             a.rel = 'noopener';
+             a.className = 'resource-link';
+             a.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg><span>Homepage</span>`;
+             resLinks.appendChild(a);
+        }
+        if (pkg.funding) {
+             const a = document.createElement('a');
+             a.href = pkg.funding;
+             a.target = '_blank';
+             a.rel = 'noopener';
+             a.className = 'sponsor-btn';
+             a.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span>Sponsor</span>`;
+             resLinks.appendChild(a);
+        }
+
+        // Versions 
+        const vList = document.getElementById('versions-list');
+        const versions = pkg.versions || [{version: pkg.version, date: pkg.publishedAt, changelog: pkg.changelog}];
+        
+        if (versions.length === 0) {
+            document.getElementById('no-versions').style.display = 'block';
+        } else {
+            versions.forEach(v => {
+                const item = document.createElement('div');
+                item.className = 'version-item';
+                item.innerHTML = `
+                      <div>
+                        <div class="version-label">v${v.version}</div>
+                        ${v.date ? `<div class="version-date">${new Date(v.date).toLocaleDateString()}</div>` : ''}
+                        ${v.changelog ? `<p class="version-notes">${v.changelog}</p>` : ''}
+                      </div>
+                      <div class="version-actions">
+                        <button class="copy-btn" data-copy="nex install ${pkg.name.toLowerCase()}@${v.version}" title="Copy install command">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2"/>
+                            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                          </svg>
+                        </button>
+                      </div>`;
+                vList.appendChild(item);
+            });
+        }
+        
+        // Dependencies
+        const depList = document.getElementById('dep-graph');
+        let deps = [];
+        if (Array.isArray(pkg.dependencies)) deps = pkg.dependencies;
+        else if (pkg.dependencies) deps = Object.entries(pkg.dependencies).map(([k,v]) => ({id:k, version:v}));
+        
+        if (deps.length === 0) {
+            document.getElementById('no-deps').style.display = 'block';
+        } else {
+            deps.forEach(dep => {
+                const node = document.createElement('div');
+                node.className = 'dependency-node';
+                node.innerHTML = `
+                      <div class="dep-line"></div>
+                      <div class="dep-card">
+                        <div class="dep-name">${dep.id || dep.name}</div>
+                        ${dep.version ? `<div class="dep-version">${dep.version}</div>` : ''}
+                      </div>`;
+                depList.appendChild(node);
+            });
+        }
+    }
+
+
+    // Event Delegation for Tabs
+    document.querySelector('.package-tabs').addEventListener('click', (e) => {
+        if (e.target.classList.contains('tab')) {
+           const target = e.target.dataset.target;
+           document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+           e.target.classList.add('active');
+           
+           document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+           document.getElementById(`tab-${target}`).style.display = 'block';
+        }
+    });
+
+    // Event Delegation for Copy Buttons
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-copy]');
+        if (btn) {
+           const text = btn.getAttribute('data-copy');
+           navigator.clipboard.writeText(text).then(() => {
+               const original = btn.innerHTML;
+               btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" class="text-green-500" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+               setTimeout(() => btn.innerHTML = original, 2000);
+           });
+        }
+    });
+
+  })();
+</script>
+
+<style>
+  :root {
+    --bg-main: #ffffff;      
+    --bg-surface: #fafafa;
+    --bg-card: #ffffff;
+    --border: #e4e4e7;
+    --text-primary: #18181b;
+    --text-secondary: #71717a;
+    --accent: #e11d48;
+    --accent-glow: rgba(225, 29, 72, 0.1);
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+
+  body { background-color: var(--bg-main); color: var(--text-primary); }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+  .loading-container, .error-container {
+      padding: 4rem;
+      text-align: center;
+  }
+  .spinner {
+      width: 40px; height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Reuse styles from [id].astro manually adapted */
+  .package-header {
+    background: radial-gradient(circle at top center, #fff1f2 0%, #ffffff 70%);
+    border-bottom: 1px solid var(--border);
+    padding: 4rem 0 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .header-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; z-index: 1; position: relative;}
+  .header-top h1 { font-size: 2.5rem; font-weight: 800; margin: 0; }
+  .version-tag { background: #fff; border: 1px solid var(--border); color: var(--accent); font-family: var(--font-mono); font-size: 0.85rem; padding: 0.2rem 0.6rem; border-radius: 6px; }
+  .license-tag { font-size: 0.8rem; color: var(--text-secondary); border: 1px solid var(--border); padding: 0.2rem 0.6rem; border-radius: 99px; background: #fff; }
+  .package-description { font-size: 1.125rem; color: var(--text-secondary); max-width: 700px; margin-bottom: 2.5rem; position: relative; z-index: 1; }
+  
+  .package-tabs { display: flex; gap: 0.5rem; position: relative; z-index: 1; }
+  .tab { padding: 0.75rem 1.25rem; font-size: 0.95rem; font-weight: 500; border-radius: 8px 8px 0 0; background: transparent; border: none; cursor: pointer; color: var(--text-secondary); }
+  .tab.active { color: var(--accent); background: linear-gradient(to top, rgba(225, 29, 72, 0.05), transparent); }
+
+  .package-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 3rem; padding: 3rem 0; }
+  
+  .quick-start-card { background: linear-gradient(135deg, #fff1f2 0%, #ffffff 100%); border: 1px solid #fecdd3; border-radius: 16px; padding: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; margin-bottom: 3rem; position: relative; overflow: hidden; }
+  .quick-start-card::after { content: ''; position: absolute; top:0; right:0; bottom:0; width:4px; background: var(--accent); opacity: 0.5; }
+  .qs-left { display: flex; flex-direction: column; gap: 0.35rem; }
+  .qs-label-row { display: flex; align-items: center; gap: 0.6rem; color: var(--accent); }
+  .qs-label-row h3 { margin: 0; font-size: 1.15rem; font-weight: 700; }
+  .qs-right { display: flex; align-items: center; gap: 0.75rem; background: #fff; border: 1px solid #e4e4e7; padding: 0.75rem 1rem; border-radius: 10px; flex: 1; max-width: 450px; }
+  .qs-cmd { flex: 1; font-family: var(--font-mono); display: flex; gap: 0.6rem; align-items: center; overflow: hidden; }
+  .qs-prompt { color: #d4d4d8; font-weight: 600; }
+  .copy-icon-btn, .copy-btn { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); border-radius: 6px; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px;}
+  .copy-icon-btn:hover { background: var(--bg-surface); color: var(--text-primary); }
+
+  .markdown-section { margin-bottom: 3rem; }
+  .markdown-section h2 { font-size: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; margin-bottom: 1.5rem; }
+
+  .table { width: 100%; border-collapse: collapse; }
+  .commands-table table { width: 100%; border-collapse: separate; border-spacing: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .commands-table th, .commands-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); text-align: left; }
+  .commands-table th { background: var(--bg-surface); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; color: var(--text-secondary); }
+  .commands-table tr:last-child td { border-bottom: none; }
+  code { font-family: var(--font-mono); color: #e11d48; background: #fff1f2; padding: 2px 6px; border-radius: 4px; font-size: 0.9rem; }
+  .cmd-value { color: #4b5563; background: #f3f4f6; }
+
+  .sidebar-column { position: sticky; top: 2rem; height: fit-content; }
+  .sidebar-block { background: var(--bg-surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; }
+  .sidebar-block h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: 1rem; }
+  
+  .install-cmd-box { background: #000; border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; display: flex; align-items: center; gap: 0.75rem; color: var(--accent); }
+  .install-cmd-box code { background: transparent; color: inherit; padding: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .cmd-icon { width: 16px; height: 16px; opacity: 0.7; }
+  
+  .resource-links { display: flex; flex-direction: column; gap: 0.5rem; }
+  .resource-link { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; color: var(--text-primary); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+  .resource-link:hover { color: var(--accent); }
+  .sponsor-btn { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; color: #db2777; text-decoration: none; font-weight: 500; font-size: 0.9rem; }
+  
+  .info-item { display: flex; justify-content: space-between; margin-bottom: 0.75rem; font-size: 0.9rem; }
+  .info-item .label { color: var(--text-secondary); }
+  .info-item .value { font-weight: 500; color: var(--text-primary); text-align: right; }
+  .info-item .value a { color: var(--text-primary); text-decoration: none; border-bottom: 1px dotted var(--text-secondary); }
+
+  .keywords-list, .platforms-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .keyword-tag, .platform-tag { font-size: 0.8rem; padding: 0.2rem 0.6rem; border: 1px solid var(--border); border-radius: 99px; background: #fff; color: var(--text-secondary); }
+  
+  .screenshots-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .screenshot-item { margin: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .screenshot-item img { width: 100%; display: block; }
+  
+  .version-item { border-bottom: 1px solid var(--border); padding: 1rem 0; display: flex; justify-content: space-between; align-items: start; }
+  .version-label { font-weight: 700; font-size: 1rem; }
+  .version-date { color: var(--text-secondary); font-size: 0.8rem; margin-top: 0.2rem; }
+  .version-notes { font-size: 0.9rem; color: var(--text-primary); margin: 0.5rem 0 0; }
+  
+  .dependency-node { display: flex; gap: 1rem; margin-bottom: 1rem; }
+  .dep-line { width: 2px; background: var(--border); margin-left: 9px; position: relative; }
+  .dep-line::before { content: ''; position: absolute; top:0; left: -4px; width: 10px; height: 10px; background: var(--border); border-radius: 50%; }
+  .dep-card { background: var(--bg-surface); border: 1px solid var(--border); padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.9rem; }
+  .dep-name { font-weight: 600; }
+  .dep-version { color: var(--text-secondary); font-size: 0.8rem; }
+</style>

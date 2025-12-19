@@ -1,150 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="nex - Package manager for developer tools"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet"><title>Home | nex</title><link rel="stylesheet" href="/_astro/about.BEQDDjDH.css">
+<link rel="stylesheet" href="/_astro/index.Bw5adv7b.css"><script type="module">document.querySelectorAll(".tab").forEach(e=>{e.addEventListener("click",()=>{const t=e.getAttribute("data-tab");t&&(document.querySelectorAll(".tab").forEach(s=>s.classList.remove("active")),e.classList.add("active"),document.querySelectorAll(".install-panel").forEach(s=>s.classList.remove("active")),document.getElementById(t)?.classList.add("active"))})});const l=document.getElementById("search-input"),i=document.getElementById("search-results"),d=document.getElementById("packages-data");if(l instanceof HTMLInputElement&&i&&d){const e=d.dataset.packages||"[]",t=JSON.parse(e),s=d.dataset.baseurl||"/";l.addEventListener("input",a=>{const n=a.target;if(!n||!(n instanceof HTMLInputElement))return;const o=n.value.toLowerCase();if(o.length<1){i.classList.remove("active");return}const r=t.filter(c=>c.name.toLowerCase().includes(o)||c.id.toLowerCase().includes(o)||c.description&&c.description.toLowerCase().includes(o)).slice(0,5);r.length>0?(i.innerHTML=r.map(c=>`
+          <a href="${s}packages/${c.id}" class="search-result-item">
+            <span class="search-result-name">${c.name}</span>
+            <span class="search-result-desc">${c.description||""}</span>
+          </a>
+        `).join(""),i.classList.add("active")):i.classList.remove("active")}),document.addEventListener("click",a=>{const n=a.target;n instanceof Node&&!l.contains(n)&&!i.contains(n)&&i.classList.remove("active")}),l.addEventListener("focus",()=>{l.value.length>=1&&l.dispatchEvent(new Event("input"))})}const I=[{command:"nex install devkiraa.pagepull",output:`<span class="info">📦 Installing devkiraa.pagepull...</span>
+<span class="success">✓ Package installed successfully!</span>
+`},{command:"nex run pagepull https://example.com",output:`<span class="info">🚀 Running PagePull...</span>
+<span class="success">✓ Page scraped and converted to Markdown</span>
+<span class="success">✓ Saved to output.md (2.3 KB)</span>
+`},{command:"nex list",output:`<span class="info">📋 Installed packages:</span>
+  devkiraa.pagepull  v1.0.0
+<span class="success">✓ 1 package installed</span>
+`}];let m=0,u=0,p=!0,E=null;const f=document.getElementById("typed-command"),g=document.getElementById("terminal-output");document.querySelector(".terminal-cursor");function C(){if(!f||!g)return;const e=I[m];p&&(u<e.command.length?(f.textContent+=e.command[u],u++):(p=!1,setTimeout(()=>{g.innerHTML=e.output,setTimeout(()=>{m=(m+1)%I.length,u=0,f.textContent="",g.innerHTML="",p=!0},2500)},500)))}const L=document.querySelector(".terminal-demo-section");L&&new IntersectionObserver(t=>{t.forEach(s=>{s.isIntersecting&&!E&&(E=setInterval(C,80))})},{threshold:.3}).observe(L);function q(e,t,s=1500){const n=performance.now();function o(r){const c=r-n,y=Math.min(c/s,1),S=1-Math.pow(1-y,3),k=Math.floor(0+(t-0)*S);t===1/0||t>999?e.textContent="∞":e.textContent=k.toString(),y<1?requestAnimationFrame(o):t!==1/0&&t<=999&&(e.textContent=t.toString())}requestAnimationFrame(o)}const v=document.getElementById("hero-stats");if(v){let e=!1;new IntersectionObserver(s=>{s.forEach(a=>{a.isIntersecting&&!e&&(e=!0,v.querySelectorAll(".stat-value").forEach(n=>{const o=n.getAttribute("data-count");if(o){const r=parseInt(o,10);isNaN(r)||q(n,r)}}))})},{threshold:.5}).observe(v)}const b=document.querySelectorAll("[data-aos]");if(b.length>0){const e=new IntersectionObserver(t=>{t.forEach(s=>{if(s.isIntersecting){const a=s.target,n=a.getAttribute("data-aos-delay")||0;setTimeout(()=>{a.style.opacity="1",a.style.transform="translateY(0)"},parseInt(n))}})},{threshold:.1});b.forEach(t=>{t.style.opacity="0",t.style.transform="translateY(20px)",t.style.transition="opacity 0.6s ease, transform 0.6s ease",e.observe(t)})}const h=document.querySelector(".hero-scroll-indicator");h&&(h.addEventListener("click",()=>{const e=document.querySelector(".install-section");e&&e.scrollIntoView({behavior:"smooth"})}),h.style.cursor="pointer");
+</script></head> <body data-astro-cid-sckkx6r4> <header class="header" data-astro-cid-sckkx6r4> <div class="header-top" data-astro-cid-sckkx6r4> <div class="container header-container" data-astro-cid-sckkx6r4> <a href="/" class="logo" data-astro-cid-sckkx6r4> <span class="logo-text" data-astro-cid-sckkx6r4>nex</span> </a>  <nav class="nav-links" data-astro-cid-sckkx6r4> <a href="/packages" data-astro-cid-sckkx6r4>Packages</a> <a href="/docs" data-astro-cid-sckkx6r4>Documentation</a> <a href="/login.html" data-astro-cid-sckkx6r4>Login</a> <a href="https://github.com/nexhq/nex" target="_blank" class="github-link" data-astro-cid-sckkx6r4> <svg viewBox="0 0 16 16" width="20" height="20" fill="currentColor" data-astro-cid-sckkx6r4> <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" data-astro-cid-sckkx6r4></path> </svg> </a> </nav> </div> </div> </header> <main data-astro-cid-sckkx6r4>   <section class="hero" data-astro-cid-j7pv25f6> <div class="hero-bg" data-astro-cid-j7pv25f6> <div class="hero-grid" data-astro-cid-j7pv25f6></div> <div class="hero-orb hero-orb-1" data-astro-cid-j7pv25f6></div> <div class="hero-orb hero-orb-2" data-astro-cid-j7pv25f6></div> <div class="hero-orb hero-orb-3" data-astro-cid-j7pv25f6></div> </div> <div class="container hero-content" data-astro-cid-j7pv25f6> <div class="hero-text" data-astro-cid-j7pv25f6> <div class="hero-badge" data-astro-cid-j7pv25f6> <span class="badge-dot" data-astro-cid-j7pv25f6></span> <span data-astro-cid-j7pv25f6>v1.8.1 — Now Available</span> </div> <h1 class="hero-title" data-astro-cid-j7pv25f6>
+Build amazing tools.
+<span class="hero-highlight typing-effect" data-astro-cid-j7pv25f6>Share them with the world.</span> </h1> <p class="hero-subtitle" data-astro-cid-j7pv25f6>
+The package manager for developer tools. Install, run, and share utilities with a single command.
+</p> <div class="hero-search" data-astro-cid-j7pv25f6> <form action="/packages" method="get" class="hero-search-form" data-astro-cid-j7pv25f6> <svg class="search-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-j7pv25f6> <circle cx="11" cy="11" r="8" data-astro-cid-j7pv25f6></circle> <path d="m21 21-4.35-4.35" data-astro-cid-j7pv25f6></path> </svg> <input type="search" name="q" id="search-input" placeholder="Search packages..." class="hero-search-input" autocomplete="off" data-astro-cid-j7pv25f6> <button type="submit" class="hero-search-btn" data-astro-cid-j7pv25f6>Search</button> <div id="search-results" class="search-results" data-astro-cid-j7pv25f6></div> </form> <div id="packages-data" data-packages="[{&#34;author&#34;:{&#34;name&#34;:&#34;devkiraa&#34;,&#34;github&#34;:&#34;devkiraa&#34;},&#34;id&#34;:&#34;devkiraa.pagepull&#34;,&#34;name&#34;:&#34;PagePull&#34;,&#34;version&#34;:&#34;1.0.0&#34;,&#34;description&#34;:&#34;Pull entire websites for offline viewing&#34;,&#34;license&#34;:&#34;MIT&#34;,&#34;repository&#34;:&#34;https://github.com/nex/pagepull&#34;,&#34;keywords&#34;:[],&#34;workspace&#34;:&#34;694584f74f1b77a5e815e49f&#34;,&#34;createdAt&#34;:&#34;2025-12-19T17:10:36.531Z&#34;,&#34;updatedAt&#34;:&#34;2025-12-19T17:10:36.531Z&#34;}]" data-baseurl="/" style="display:none;" data-astro-cid-j7pv25f6></div> </div> <div class="hero-stats" id="hero-stats" data-astro-cid-j7pv25f6> <div class="stat" data-astro-cid-j7pv25f6> <span class="stat-value" data-count="1" data-astro-cid-j7pv25f6>0</span> <span class="stat-label" data-astro-cid-j7pv25f6>Packages</span> </div> <div class="stat" data-astro-cid-j7pv25f6> <span class="stat-value" data-count="3" data-astro-cid-j7pv25f6>0</span> <span class="stat-label" data-astro-cid-j7pv25f6>Platforms</span> </div> <div class="stat" data-astro-cid-j7pv25f6> <span class="stat-value" data-count="1000" data-astro-cid-j7pv25f6>∞</span> <span class="stat-label" data-astro-cid-j7pv25f6>Possibilities</span> </div> </div> </div> <div class="hero-visual" data-astro-cid-j7pv25f6> <div class="hero-logo-container" data-astro-cid-j7pv25f6> <div class="hero-logo-glow" data-astro-cid-j7pv25f6></div> <div class="hero-logo" data-astro-cid-j7pv25f6>nex</div> </div> </div> </div> <div class="hero-scroll-indicator" data-astro-cid-j7pv25f6> <span data-astro-cid-j7pv25f6>Scroll to explore</span> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-j7pv25f6> <path d="M12 5v14M19 12l-7 7-7-7" data-astro-cid-j7pv25f6></path> </svg> </div> </section>  <section class="install-section" data-astro-cid-j7pv25f6> <div class="container" data-astro-cid-j7pv25f6> <div class="install-box" data-astro-cid-j7pv25f6> <div class="release-info" data-astro-cid-j7pv25f6> <div data-astro-cid-j7pv25f6> <span class="release-label" data-astro-cid-j7pv25f6>Latest release</span> <span class="release-version" data-astro-cid-j7pv25f6>v1.8.1</span> </div> <a href="https://github.com/nexhq/nex/releases/tag/v1.8.1" target="_blank" rel="noopener" class="release-link" data-astro-cid-j7pv25f6>
+View release notes
+</a> </div> <div class="install-tabs" data-astro-cid-j7pv25f6> <button class="tab active" data-tab="windows" data-astro-cid-j7pv25f6>Windows</button> <button class="tab" data-tab="linux" data-astro-cid-j7pv25f6>Linux</button> <button class="tab" data-tab="mac" data-astro-cid-j7pv25f6>macOS</button> </div> <div class="install-content" data-astro-cid-j7pv25f6> <div class="install-panel active" id="windows" data-astro-cid-j7pv25f6> <pre data-astro-cid-j7pv25f6><code data-astro-cid-j7pv25f6><span class="comment" data-astro-cid-j7pv25f6># Install via PowerShell (admin not required)</span>
+iwr https://raw.githubusercontent.com/devkiraa/nex/main/cli/install.ps1 | iex
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nex Registry - Login</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+<span class="comment" data-astro-cid-j7pv25f6># Verify</span>
+nex --version</code></pre> </div> <div class="install-panel" id="linux" data-astro-cid-j7pv25f6> <pre data-astro-cid-j7pv25f6><code data-astro-cid-j7pv25f6><span class="comment" data-astro-cid-j7pv25f6># Install via Bash</span>
+curl -fsSL https://raw.githubusercontent.com/devkiraa/nex/main/cli/install.sh | bash
 
-        .card {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 350px;
-        }
+<span class="comment" data-astro-cid-j7pv25f6># Verify</span>
+nex --version</code></pre> </div> <div class="install-panel" id="mac" data-astro-cid-j7pv25f6> <pre data-astro-cid-j7pv25f6><code data-astro-cid-j7pv25f6><span class="comment" data-astro-cid-j7pv25f6># Install via Bash</span>
+curl -fsSL https://raw.githubusercontent.com/devkiraa/nex/main/cli/install.sh | bash
 
-        h1 {
-            margin-top: 0;
-            color: #333;
-        }
-
-        input {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #000;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        button:hover {
-            opacity: 0.8;
-        }
-
-        .error {
-            color: red;
-            font-size: 0.9rem;
-            display: none;
-            margin-bottom: 10px;
-        }
-
-        a {
-            color: #666;
-            font-size: 0.9rem;
-            text-decoration: none;
-            display: block;
-            margin-top: 10px;
-            text-align: center;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="card">
-        <h1>Login to Nex</h1>
-        <div id="error" class="error"></div>
-        <form id="loginForm">
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit">Sign In</button>
-        </form>
-        <a href="#" onclick="toggleMode()">Need an account? Register</a>
-    </div>
-
-    <script>
-        let isRegister = false;
-        const API_URL = 'https://nex-9ujp.onrender.com/api/auth';
-
-        function toggleMode() {
-            isRegister = !isRegister;
-            document.querySelector('h1').innerText = isRegister ? 'Create Account' : 'Login to Nex';
-            document.querySelector('a').innerText = isRegister ? 'Already have an account? Login' : 'Need an account? Register';
-            document.querySelector('button').innerText = isRegister ? 'Register' : 'Sign In';
-
-            const nameInput = document.getElementById('username');
-            if (isRegister && !nameInput) {
-                const input = document.createElement('input');
-                input.id = 'username';
-                input.placeholder = 'Username';
-                input.required = true;
-                document.getElementById('loginForm').insertBefore(input, document.getElementById('email'));
-            } else if (!isRegister && nameInput) {
-                nameInput.remove();
-            }
-        }
-
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const errorDiv = document.getElementById('error');
-
-            errorDiv.style.display = 'none';
-
-            try {
-                const endpoint = isRegister ? '/register' : '/login';
-                const body = isRegister
-                    ? { username: document.getElementById('username').value, email, password }
-                    : { email, password };
-
-                const res = await fetch(`${API_URL}${endpoint}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
-                });
-
-                const data = await res.json();
-
-                if (!res.ok) throw new Error(data.msg || 'Error occurred');
-
-                if (isRegister) {
-                    // Auto login after register or ask to login
-                    alert('Registration successful! Please login.');
-                    toggleMode();
-                } else {
-                    localStorage.setItem('token', data.token);
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    window.location.href = '/dashboard.html';
-                }
-            } catch (err) {
-                errorDiv.innerText = err.message;
-                errorDiv.style.display = 'block';
-            }
-        });
-    </script>
-</body>
-
-</html>
+<span class="comment" data-astro-cid-j7pv25f6># Verify</span>
+nex --version</code></pre> </div> </div> <div class="install-cta" data-astro-cid-j7pv25f6> <a href="https://github.com/nexhq/nex/releases/tag/v1.8.1" class="btn btn-primary" target="_blank" rel="noopener" data-astro-cid-j7pv25f6>
+Download nex v1.8.1 </a> <a href="/docs" class="btn btn-secondary" data-astro-cid-j7pv25f6>
+Read the Docs
+</a> </div> <p class="checksum-note" data-astro-cid-j7pv25f6>Checksums and binaries are hosted on GitHub Releases. Always verify downloads before installing.</p> </div> </div> </section>  <section class="features" data-astro-cid-j7pv25f6> <div class="container" data-astro-cid-j7pv25f6> <h2 class="section-title" data-astro-cid-j7pv25f6>Why nex?</h2> <div class="features-grid" data-astro-cid-j7pv25f6> <div class="feature-card" data-aos="fade-up" data-astro-cid-j7pv25f6> <div class="feature-icon" data-astro-cid-j7pv25f6>🚀</div> <h3 data-astro-cid-j7pv25f6>Zero Dependencies</h3> <p data-astro-cid-j7pv25f6>Single executable binary. No runtime required. Works on Windows, Linux, and macOS.</p> </div> <div class="feature-card" data-aos="fade-up" data-aos-delay="100" data-astro-cid-j7pv25f6> <div class="feature-icon" data-astro-cid-j7pv25f6>📦</div> <h3 data-astro-cid-j7pv25f6>GitHub-Powered</h3> <p data-astro-cid-j7pv25f6>Package registry lives on GitHub. Fork, submit PRs, and collaborate openly.</p> </div> <div class="feature-card" data-aos="fade-up" data-aos-delay="200" data-astro-cid-j7pv25f6> <div class="feature-icon" data-astro-cid-j7pv25f6>🔧</div> <h3 data-astro-cid-j7pv25f6>Multi-Runtime</h3> <p data-astro-cid-j7pv25f6>Run Python, Node.js, PowerShell, Bash scripts and native binaries seamlessly.</p> </div> <div class="feature-card" data-aos="fade-up" data-aos-delay="300" data-astro-cid-j7pv25f6> <div class="feature-icon" data-astro-cid-j7pv25f6>⚡</div> <h3 data-astro-cid-j7pv25f6>Lightning Fast</h3> <p data-astro-cid-j7pv25f6>Written in C for maximum performance. Instant installs and execution.</p> </div> <div class="feature-card" data-aos="fade-up" data-aos-delay="400" data-astro-cid-j7pv25f6> <div class="feature-icon" data-astro-cid-j7pv25f6>🔒</div> <h3 data-astro-cid-j7pv25f6>Secure</h3> <p data-astro-cid-j7pv25f6>Packages are reviewed via pull requests. SHA256 checksums for downloads.</p> </div> <div class="feature-card" data-aos="fade-up" data-aos-delay="500" data-astro-cid-j7pv25f6> <div class="feature-icon" data-astro-cid-j7pv25f6>💚</div> <h3 data-astro-cid-j7pv25f6>Open Source</h3> <p data-astro-cid-j7pv25f6>MIT licensed. Community-driven. Free forever.</p> </div> </div> </div> </section>  <section class="terminal-demo-section" data-astro-cid-j7pv25f6> <div class="container" data-astro-cid-j7pv25f6> <div class="terminal-demo-grid" data-astro-cid-j7pv25f6> <div class="terminal-info" data-astro-cid-j7pv25f6> <h2 class="section-title" data-astro-cid-j7pv25f6>See it in action</h2> <p class="terminal-description" data-astro-cid-j7pv25f6>
+Watch how easy it is to install and run packages with nex. 
+            Just a single command gets you up and running.
+</p> <div class="terminal-features-list" data-astro-cid-j7pv25f6> <div class="terminal-feature" data-astro-cid-j7pv25f6> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-j7pv25f6> <polyline points="20 6 9 17 4 12" data-astro-cid-j7pv25f6></polyline> </svg> <span data-astro-cid-j7pv25f6>One-line installation</span> </div> <div class="terminal-feature" data-astro-cid-j7pv25f6> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-j7pv25f6> <polyline points="20 6 9 17 4 12" data-astro-cid-j7pv25f6></polyline> </svg> <span data-astro-cid-j7pv25f6>Automatic dependency resolution</span> </div> <div class="terminal-feature" data-astro-cid-j7pv25f6> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-j7pv25f6> <polyline points="20 6 9 17 4 12" data-astro-cid-j7pv25f6></polyline> </svg> <span data-astro-cid-j7pv25f6>Cross-platform support</span> </div> </div> </div> <div class="terminal-window" data-astro-cid-j7pv25f6> <div class="terminal-header" data-astro-cid-j7pv25f6> <div class="terminal-buttons" data-astro-cid-j7pv25f6> <span class="terminal-btn close" data-astro-cid-j7pv25f6></span> <span class="terminal-btn minimize" data-astro-cid-j7pv25f6></span> <span class="terminal-btn maximize" data-astro-cid-j7pv25f6></span> </div> <span class="terminal-title" data-astro-cid-j7pv25f6>Terminal</span> </div> <div class="terminal-body" id="terminal-demo" data-astro-cid-j7pv25f6> <div class="terminal-line" data-astro-cid-j7pv25f6> <span class="terminal-prompt" data-astro-cid-j7pv25f6>$</span> <span class="terminal-command" id="typed-command" data-astro-cid-j7pv25f6></span> <span class="terminal-cursor" data-astro-cid-j7pv25f6>|</span> </div> <div class="terminal-output" id="terminal-output" data-astro-cid-j7pv25f6></div> </div> </div> </div> </div> </section>  <section class="how-it-works" data-astro-cid-j7pv25f6> <div class="container" data-astro-cid-j7pv25f6> <h2 class="section-title" data-astro-cid-j7pv25f6>How It Works</h2> <p class="section-subtitle" data-astro-cid-j7pv25f6>Get started with nex in three simple steps</p> <div class="steps-grid" data-astro-cid-j7pv25f6> <div class="step-card" data-astro-cid-j7pv25f6> <div class="step-number" data-astro-cid-j7pv25f6>01</div> <div class="step-icon" data-astro-cid-j7pv25f6> <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-astro-cid-j7pv25f6> <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" data-astro-cid-j7pv25f6></path> <polyline points="7 11 12 16 17 11" data-astro-cid-j7pv25f6></polyline> <line x1="12" y1="4" x2="12" y2="16" data-astro-cid-j7pv25f6></line> </svg> </div> <h3 data-astro-cid-j7pv25f6>Download nex</h3> <p data-astro-cid-j7pv25f6>Grab the binary for your platform. It's a single file with zero dependencies.</p> </div> <div class="step-connector" data-astro-cid-j7pv25f6> <svg width="40" height="24" viewBox="0 0 40 24" data-astro-cid-j7pv25f6> <path d="M0 12h35M30 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-j7pv25f6></path> </svg> </div> <div class="step-card" data-astro-cid-j7pv25f6> <div class="step-number" data-astro-cid-j7pv25f6>02</div> <div class="step-icon" data-astro-cid-j7pv25f6> <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-astro-cid-j7pv25f6> <circle cx="11" cy="11" r="8" data-astro-cid-j7pv25f6></circle> <path d="m21 21-4.35-4.35" data-astro-cid-j7pv25f6></path> </svg> </div> <h3 data-astro-cid-j7pv25f6>Find a Package</h3> <p data-astro-cid-j7pv25f6>Browse our registry or search for the tools you need. Everything is open source.</p> </div> <div class="step-connector" data-astro-cid-j7pv25f6> <svg width="40" height="24" viewBox="0 0 40 24" data-astro-cid-j7pv25f6> <path d="M0 12h35M30 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-j7pv25f6></path> </svg> </div> <div class="step-card" data-astro-cid-j7pv25f6> <div class="step-number" data-astro-cid-j7pv25f6>03</div> <div class="step-icon" data-astro-cid-j7pv25f6> <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-astro-cid-j7pv25f6> <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" data-astro-cid-j7pv25f6></polygon> </svg> </div> <h3 data-astro-cid-j7pv25f6>Run It!</h3> <p data-astro-cid-j7pv25f6>Execute any package with a single command. That's it. No setup, no hassle.</p> </div> </div> </div> </section>  <section class="tech-stack-section" data-astro-cid-j7pv25f6> <div class="container" data-astro-cid-j7pv25f6> <h2 class="section-title" data-astro-cid-j7pv25f6>Works With Your Favorite Tools</h2> <p class="section-subtitle" data-astro-cid-j7pv25f6>nex supports multiple runtimes and can run almost anything</p> <div class="tech-stack-grid" data-astro-cid-j7pv25f6> <div class="tech-card" data-astro-cid-j7pv25f6> <div class="tech-icon" data-astro-cid-j7pv25f6>🐍</div> <span data-astro-cid-j7pv25f6>Python</span> </div> <div class="tech-card" data-astro-cid-j7pv25f6> <div class="tech-icon" data-astro-cid-j7pv25f6>📗</div> <span data-astro-cid-j7pv25f6>Node.js</span> </div> <div class="tech-card" data-astro-cid-j7pv25f6> <div class="tech-icon" data-astro-cid-j7pv25f6>💠</div> <span data-astro-cid-j7pv25f6>PowerShell</span> </div> <div class="tech-card" data-astro-cid-j7pv25f6> <div class="tech-icon" data-astro-cid-j7pv25f6>🐚</div> <span data-astro-cid-j7pv25f6>Bash</span> </div> <div class="tech-card" data-astro-cid-j7pv25f6> <div class="tech-icon" data-astro-cid-j7pv25f6>⚙️</div> <span data-astro-cid-j7pv25f6>Native Binaries</span> </div> <div class="tech-card" data-astro-cid-j7pv25f6> <div class="tech-icon" data-astro-cid-j7pv25f6>🦀</div> <span data-astro-cid-j7pv25f6>Rust</span> </div> <div class="tech-card" data-astro-cid-j7pv25f6> <div class="tech-icon" data-astro-cid-j7pv25f6>🐹</div> <span data-astro-cid-j7pv25f6>Go</span> </div> <div class="tech-card" data-astro-cid-j7pv25f6> <div class="tech-icon" data-astro-cid-j7pv25f6>✨</div> <span data-astro-cid-j7pv25f6>And More!</span> </div> </div> </div> </section>  <section class="testimonials-section" data-astro-cid-j7pv25f6> <div class="container" data-astro-cid-j7pv25f6> <h2 class="section-title" data-astro-cid-j7pv25f6>Loved by Developers</h2> <p class="section-subtitle" data-astro-cid-j7pv25f6>Join the growing community of developers using nex</p> <div class="testimonials-grid" data-astro-cid-j7pv25f6> <div class="testimonial-card" data-astro-cid-j7pv25f6> <div class="testimonial-content" data-astro-cid-j7pv25f6> <div class="testimonial-quote" data-astro-cid-j7pv25f6>"</div> <p data-astro-cid-j7pv25f6>nex has completely changed how I share my CLI tools. Publishing a package takes minutes, not hours.</p> </div> <div class="testimonial-author" data-astro-cid-j7pv25f6> <div class="author-avatar" data-astro-cid-j7pv25f6>DK</div> <div class="author-info" data-astro-cid-j7pv25f6> <span class="author-name" data-astro-cid-j7pv25f6>Dev Kira</span> <span class="author-role" data-astro-cid-j7pv25f6>Open Source Developer</span> </div> </div> </div> <div class="testimonial-card" data-astro-cid-j7pv25f6> <div class="testimonial-content" data-astro-cid-j7pv25f6> <div class="testimonial-quote" data-astro-cid-j7pv25f6>"</div> <p data-astro-cid-j7pv25f6>The GitHub-based registry is genius. I can review packages through PRs and trust what I'm installing.</p> </div> <div class="testimonial-author" data-astro-cid-j7pv25f6> <div class="author-avatar" data-astro-cid-j7pv25f6>AB</div> <div class="author-info" data-astro-cid-j7pv25f6> <span class="author-name" data-astro-cid-j7pv25f6>Alex Builder</span> <span class="author-role" data-astro-cid-j7pv25f6>DevOps Engineer</span> </div> </div> </div> <div class="testimonial-card" data-astro-cid-j7pv25f6> <div class="testimonial-content" data-astro-cid-j7pv25f6> <div class="testimonial-quote" data-astro-cid-j7pv25f6>"</div> <p data-astro-cid-j7pv25f6>Zero dependencies, cross-platform, blazing fast. nex is exactly what the developer tools ecosystem needed.</p> </div> <div class="testimonial-author" data-astro-cid-j7pv25f6> <div class="author-avatar" data-astro-cid-j7pv25f6>SC</div> <div class="author-info" data-astro-cid-j7pv25f6> <span class="author-name" data-astro-cid-j7pv25f6>Sam Coder</span> <span class="author-role" data-astro-cid-j7pv25f6>Software Architect</span> </div> </div> </div> </div> </div> </section>  <section class="packages-section" data-astro-cid-j7pv25f6> <div class="container" data-astro-cid-j7pv25f6> <div class="section-header" data-astro-cid-j7pv25f6> <h2 class="section-title" data-astro-cid-j7pv25f6>Discover Packages</h2> <a href="/packages" class="view-all" data-astro-cid-j7pv25f6>View all packages →</a> </div>  <div class="packages-grid" data-astro-cid-j7pv25f6> <a href="/packages/devkiraa.pagepull" class="package-card" data-astro-cid-j7pv25f6> <div class="package-content" data-astro-cid-j7pv25f6> <div class="package-header" data-astro-cid-j7pv25f6> <div class="package-title-row" data-astro-cid-j7pv25f6> <h3 class="package-name" data-astro-cid-j7pv25f6>PagePull</h3> <span class="package-version" data-astro-cid-j7pv25f6>v1.0.0</span> </div> <p class="package-id" data-astro-cid-j7pv25f6>devkiraa.pagepull</p> </div> <p class="package-desc" data-astro-cid-j7pv25f6>Pull entire websites for offline viewing</p> </div> <div class="package-footer" data-astro-cid-j7pv25f6> <div class="package-tags" data-astro-cid-j7pv25f6>  </div> <div class="package-action" data-astro-cid-j7pv25f6> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-j7pv25f6> <line x1="5" y1="12" x2="19" y2="12" data-astro-cid-j7pv25f6></line> <polyline points="12 5 19 12 12 19" data-astro-cid-j7pv25f6></polyline> </svg> </div> </div> </a> </div>  </div> </section>  <section class="cta-section" data-astro-cid-j7pv25f6> <div class="container" data-astro-cid-j7pv25f6> <div class="cta-content" data-astro-cid-j7pv25f6> <h2 data-astro-cid-j7pv25f6>Ready to share your tools?</h2> <p data-astro-cid-j7pv25f6>Publishing a package is simple. Create a manifest, submit a PR, and you're live.</p> <div class="cta-buttons" data-astro-cid-j7pv25f6> <a href="/docs" class="btn btn-primary" data-astro-cid-j7pv25f6>Get Started</a> <a href="https://github.com/nexhq/nex" class="btn btn-dark" data-astro-cid-j7pv25f6> <svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor" style="margin-right: 8px" data-astro-cid-j7pv25f6> <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" data-astro-cid-j7pv25f6></path> </svg>
+Star on GitHub
+</a> </div> </div> </div> </section>  </main> <footer class="footer" data-astro-cid-sckkx6r4> <div class="container" data-astro-cid-sckkx6r4> <div class="footer-grid" data-astro-cid-sckkx6r4> <div class="footer-brand" data-astro-cid-sckkx6r4> <span class="footer-logo" data-astro-cid-sckkx6r4>⚡ nex</span> <p data-astro-cid-sckkx6r4>Nimble Executor</p> <p class="footer-tagline" data-astro-cid-sckkx6r4>Package manager for developer tools</p> </div> <div class="footer-col" data-astro-cid-sckkx6r4> <h4 data-astro-cid-sckkx6r4>Resources</h4> <a href="/docs" data-astro-cid-sckkx6r4>Documentation</a> <a href="/packages" data-astro-cid-sckkx6r4>Browse Packages</a> <a href="https://github.com/nexhq/nex/releases" data-astro-cid-sckkx6r4>Releases</a> </div> <div class="footer-col" data-astro-cid-sckkx6r4> <h4 data-astro-cid-sckkx6r4>Community</h4> <a href="https://github.com/nexhq/nex" data-astro-cid-sckkx6r4>GitHub</a> <a href="https://github.com/nexhq/nex/issues" data-astro-cid-sckkx6r4>Report Issues</a> <a href="https://github.com/nexhq/nex/blob/main/CONTRIBUTING.md" data-astro-cid-sckkx6r4>Contributing</a> </div> <div class="footer-col" data-astro-cid-sckkx6r4> <h4 data-astro-cid-sckkx6r4>Legal</h4> <a href="https://github.com/nexhq/nex/blob/main/LICENSE" data-astro-cid-sckkx6r4>MIT License</a> </div> </div> <div class="footer-bottom" data-astro-cid-sckkx6r4> <p data-astro-cid-sckkx6r4>&copy; 2025 Nex Contributors</p> </div> </div> </footer>  </body> </html>  
