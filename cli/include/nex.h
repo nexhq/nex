@@ -30,8 +30,9 @@
 #define NEX_USER_AGENT "nex/1.8.1"
 
 /* Registry configuration */
-#define REGISTRY_BASE_URL "https://raw.githubusercontent.com/nexhq/nex/main/registry"
-#define REGISTRY_INDEX_URL REGISTRY_BASE_URL "/index.json"
+/* Registry configuration */
+#define REGISTRY_BASE_URL "http://localhost:5000/api"
+#define REGISTRY_INDEX_URL REGISTRY_BASE_URL "/packages"
 
 /* Limits */
 #define MAX_PATH_LEN 1024

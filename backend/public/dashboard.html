@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nex Dashboard</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f4f7f6;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #1a1a2e;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            color: #e94560;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            color: #a0a0a0;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #16213e;
+            color: white;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .spacer {
+            flex: 1;
+        }
+
+        .user-info {
+            padding: 1rem;
+            border-top: 1px solid #333;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+
+        .logout {
+            color: #e94560;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #0f3460;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #16213e;
+        }
+
+        .btn-danger {
+            background: #e94560;
+            color: white;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-top: 0.5rem;
+        }
+
+        /* Table */
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #fafafa;
+            color: #666;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.6rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 500px;
+            max-width: 90%;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            font-family: monospace;
+            padding: 0.8rem;
+            margin: 1rem 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            background: #333;
+            color: #fff;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">📦 Nex Admin</div>
+        <a class="nav-item active" onclick="switchView('overview')">User Overview</a>
+        <a class="nav-item" onclick="switchView('packages')">My Packages</a>
+        <a class="nav-item" id="adminLink" onclick="switchView('admin')" style="display:none;">Admin All Packages</a>
+
+        <div class="spacer"></div>
+        <div class="user-info">
+            <div id="username">Loading...</div>
+            <span class="logout" onclick="logout()">Sign Out</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <!-- Overview View -->
+        <div id="view-overview">
+            <div class="header">
+                <div class="title">Dashboard</div>
+                <button class="btn btn-primary" onclick="openPublishModal()">+ New Package</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="card">
+                    <h3>Total Packages</h3>
+                    <div class="value" id="stat-total">0</div>
+                </div>
+                <!-- Add more stats as needed -->
+            </div>
+        </div>
+
+        <!-- Packages List View -->
+        <div id="view-packages" style="display:none;">
+            <div class="header">
+                <div class="title" id="page-title">My Packages</div>
+                <button class="btn btn-primary" onclick="openPublishModal()">+ New Package</button>
+            </div>
+
+            <div class="table-container">
+                <table id="packages-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Version</th>
+                            <th>Owner</th>
+                            <th>Runtime</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="packages-list">
+                        <!-- Loaded via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Publish Modal -->
+    <div id="publishModal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-top:0">Publish / Update Package</h2>
+            <p style="color:#666; font-size:0.9rem">Paste your <code>nex.json</code> manifest below.</p>
+            <textarea id="manifestInput" placeholder='{ "name": "my-pkg", ... }'></textarea>
+            <div style="display:flex; gap:10px; justify-content:flex-end;">
+                <button class="btn" style="background:#eee" onclick="closePublishModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitPackage()">Publish</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API = 'http://localhost:5000/api';
+        let currentUser = null;
+        let allPackages = [];
+
+        // Init
+        (async () => {
+            const token = localStorage.getItem('token');
+            const userStr = localStorage.getItem('user');
+
+            if (!token || !userStr) {
+                window.location.href = '/index.html';
+                return;
+            }
+
+            currentUser = JSON.parse(userStr);
+            console.log("Logged in user:", currentUser);
+
+            // Set UI
+            const userDisplay = `
+                <div>${currentUser.username}</div>
+                ${currentUser.role === 'admin' ? '<span class="role-badge">ADMIN</span>' : ''}
+            `;
+            document.getElementById('username').innerHTML = userDisplay;
+
+            if (currentUser.role === 'admin') {
+                document.getElementById('adminLink').style.display = 'flex';
+            }
+
+            await loadData();
+        })();
+
+        async function loadData() {
+            try {
+                const res = await fetch(`${API}/packages`);
+                const data = await res.json();
+                allPackages = data.packages || [];
+
+                // Update stats
+                document.getElementById('stat-total').innerText = allPackages.length;
+
+                // Default view
+                renderPackages();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function switchView(viewName) {
+            // Update Sidebar
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Hide all views
+            document.getElementById('view-overview').style.display = 'none';
+            document.getElementById('view-packages').style.display = 'none';
+
+            if (viewName === 'overview') {
+                document.getElementById('view-overview').style.display = 'block';
+            } else if (viewName === 'packages' || viewName === 'admin') {
+                document.getElementById('view-packages').style.display = 'block';
+                document.getElementById('page-title').innerText = viewName === 'admin' ? 'All Packages (Admin)' : 'My Packages';
+                renderPackages(viewName === 'admin');
+            }
+        }
+
+        function renderPackages(showAll = false) {
+            const tbody = document.getElementById('packages-list');
+            tbody.innerHTML = '';
+
+            const filtered = showAll
+                ? allPackages
+                // We'll simulate 'my packages' for now by simple filter if author matches username
+                // Ideally backend sends owner ID, but let's check manifest author or just show all for demo
+                : allPackages.filter(p => !p.workspace || p.workspace === currentUser.id); // TODO: Real ownership check
+
+            // If empty
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">No packages found</td></tr>';
+                return;
+            }
+
+            filtered.forEach(pkg => {
+                const tr = document.createElement('tr');
+                const owner = pkg.author ? (pkg.author.name || pkg.author) : 'Unknown';
+                const runtime = pkg.runtime ? (pkg.runtime.type || 'unknown') : 'unknown';
+
+                tr.innerHTML = `
+                    <td style="font-family:monospace; font-weight:600">${pkg.id}</td>
+                    <td>${pkg.name}</td>
+                    <td><span class="status-badge status-active">v${pkg.version}</span></td>
+                    <td>${owner}</td>
+                    <td>${runtime}</td>
+                    <td>
+                        <button class="btn btn-danger" style="padding:4px 8px; font-size:0.8rem" onclick="deletePackage('${pkg.id}')">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function openPublishModal() {
+            document.getElementById('publishModal').classList.add('active');
+        }
+
+        function closePublishModal() {
+            document.getElementById('publishModal').classList.remove('active');
+        }
+
+        async function submitPackage() {
+            const content = document.getElementById('manifestInput').value;
+            try {
+                const manifest = JSON.parse(content);
+                const res = await fetch(`${API}/packages`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': localStorage.getItem('token')
+                    },
+                    body: JSON.stringify(manifest)
+                });
+
+                if (res.ok) {
+                    alert('Package published successfully!');
+                    closePublishModal();
+                    await loadData(); // Reload list
+                } else {
+                    const d = await res.json();
+                    alert('Error: ' + d.msg);
+                }
+            } catch (e) {
+                alert('Invalid JSON');
+            }
+        }
+
+        async function deletePackage(id) {
+            if (!confirm(`Are you sure you want to delete ${id}?`)) return;
+
+            try {
+                const res = await fetch(`${API}/packages/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'x-auth-token': localStorage.getItem('token')
+                    }
+                });
+
+                if (res.ok) {
+                    await loadData(); // Reload
+                } else {
+                    const d = await res.json();
+                    alert('Error: ' + d.msg);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/index.html';
+        }
+    </script>
+</body>
+
+</html>

@@ -5,24 +5,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 export async function getStaticPaths() {
-  const registryUrl = 'https://raw.githubusercontent.com/devkiraa/nex/main/registry/index.json';
+  const registryUrl = 'http://localhost:5000/api/packages';
   let packages = [];
   
   try {
-    // 1. Try local file (Monorepo)
-    // resolve from process.cwd() (frontend root) -> ../registry/index.json
-    const localPath = path.resolve(process.cwd(), '../registry/index.json');
-    if (fs.existsSync(localPath)) {
-      const data = JSON.parse(fs.readFileSync(localPath, 'utf-8'));
-      packages = data.packages || [];
-    } else {
-      // 2. Fetch from GitHub
-      const response = await fetch(registryUrl, { cache: 'no-store' });
+    const response = await fetch(registryUrl);
+    if (response.ok) {
       const data = await response.json();
       packages = data.packages || [];
     }
   } catch (e) {
-    console.warn("Failed to load registry index for static paths", e);
+    console.warn("Failed to load registry index for static paths from API", e);
     packages = [];
   }
   
@@ -32,10 +25,11 @@ export async function getStaticPaths() {
   }));
 }
 
-const { id } = Astro.params;
-const pkg = (Astro.props as any).pkg;
 
-const manifestUrl = `https://raw.githubusercontent.com/devkiraa/nex/main/registry/${pkg.manifest}`;
+const { id } = Astro.params;
+const initialPkg = (Astro.props as any).pkg;
+
+const manifestUrl = `http://localhost:5000/api/packages/${id}`;
 let manifest = null;
 let versionHistory: any[] = [];
 let dependencyList: any[] = [];
@@ -43,47 +37,30 @@ let dependencyList: any[] = [];
 const siteBase = import.meta.env.BASE_URL || '/';
 
 try {
-  // 1. Try local manifest file
-  // pkg.manifest is relative to registry root, e.g. "packages/d/devkiraa/..."
-  const localManifestPath = path.resolve(process.cwd(), `../registry/${pkg.manifest}`);
-  
-  if (fs.existsSync(localManifestPath)) {
-    console.log(`Loading local manifest for ${pkg.id}`);
-    manifest = JSON.parse(fs.readFileSync(localManifestPath, 'utf-8'));
-  } else {
-    // 2. Fallback to GitHub
-    const response = await fetch(manifestUrl, { cache: 'no-store' });
+    const response = await fetch(manifestUrl);
     if (response.ok) {
         manifest = await response.json();
     } else {
         throw new Error(`Failed to fetch manifest: ${response.status}`);
     }
-  }
 } catch (e) {
-  console.warn(`Error loading manifest for ${pkg.id}, using index data fallback.`);
-  // Fallback to minimal data from index
+  console.warn(`Error loading manifest for ${id}, using fallback data.`);
+  // Fallback to initial data if available
   manifest = {
-    id: pkg.id,
-    name: pkg.name,
-    version: pkg.version,
-    description: pkg.description,
-    author: pkg.author || { name: 'Unknown' },
-    keywords: pkg.keywords || [],
-    repository: pkg.repository,
-    ...pkg
+    id: initialPkg.id,
+    name: initialPkg.name,
+    version: initialPkg.version,
+    description: initialPkg.description,
+    author: initialPkg.author || { name: 'Unknown' },
+    keywords: initialPkg.keywords || [],
+    repository: initialPkg.repository,
+    ...initialPkg
   };
 }
 
 // Version history
-const versionsUrl = manifestUrl.replace('manifest.json', 'versions.json');
-try {
-  const res = await fetch(versionsUrl);
-  if (res.ok) {
-    versionHistory = await res.json();
-  }
-} catch (e) {
-  versionHistory = manifest.versions || [];
-}
+// Version history
+versionHistory = manifest.versions || [];
 
 if (!versionHistory || versionHistory.length === 0) {
   versionHistory = [

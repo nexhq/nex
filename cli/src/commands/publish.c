@@ -1,9 +1,43 @@
 /*
- * Publish command - Submit a package to the registry
+ * Publish command - Submit a package to the registry via IssueOps
  */
 
 #include "nex.h"
 #include "cJSON.h"
+#include <ctype.h>
+
+/* Simple URL encoding helper */
+static void url_encode(const char *src, char *dest, size_t dest_size) {
+    static const char hex[] = "0123456789ABCDEF";
+    size_t i = 0, j = 0;
+    
+    while (src[i] && j < dest_size - 4) {
+        unsigned char c = src[i];
+        if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
+            dest[j++] = c;
+        } else if (c == ' ') {
+            dest[j++] = '+';
+        } else {
+            dest[j++] = '%';
+            dest[j++] = hex[c >> 4];
+            dest[j++] = hex[c & 0x0F];
+        }
+        i++;
+    }
+    dest[j] = '\0';
+}
+
+static void open_url(const char *url) {
+    char cmd[MAX_COMMAND_LEN];
+#ifdef _WIN32
+    snprintf(cmd, sizeof(cmd), "start \"\" \"%s\"", url);
+#elif __APPLE__
+    snprintf(cmd, sizeof(cmd), "open \"%s\"", url);
+#else
+    snprintf(cmd, sizeof(cmd), "xdg-open \"%s\"", url);
+#endif
+    system(cmd);
+}
 
 int cmd_publish(int argc, char *argv[]) {
     (void)argc;
@@ -38,112 +72,73 @@ int cmd_publish(int argc, char *argv[]) {
     fclose(f);
     
     cJSON *manifest = cJSON_Parse(data);
-    free(data);
     
     if (!manifest) {
+        free(data);
         print_error("Invalid nex.json");
         return 1;
     }
     
     /* Validate required fields */
     cJSON *id = cJSON_GetObjectItem(manifest, "id");
-    cJSON *name = cJSON_GetObjectItem(manifest, "name");
-    cJSON *version = cJSON_GetObjectItem(manifest, "version");
-    cJSON *description = cJSON_GetObjectItem(manifest, "description");
-    cJSON *repository = cJSON_GetObjectItem(manifest, "repository");
-    
-    int valid = 1;
-    
-    printf("  Validating manifest...\n\n");
     
     if (!id || !cJSON_IsString(id)) {
-        printf("  \033[31m✗\033[0m Missing 'id' field\n");
-        valid = 0;
-    } else {
-        printf("  \033[32m✓\033[0m ID: %s\n", id->valuestring);
-    }
-    
-    if (!name || !cJSON_IsString(name)) {
-        printf("  \033[31m✗\033[0m Missing 'name' field\n");
-        valid = 0;
-    } else {
-        printf("  \033[32m✓\033[0m Name: %s\n", name->valuestring);
-    }
-    
-    if (!version || !cJSON_IsString(version)) {
-        printf("  \033[31m✗\033[0m Missing 'version' field\n");
-        valid = 0;
-    } else {
-        printf("  \033[32m✓\033[0m Version: %s\n", version->valuestring);
-    }
-    
-    if (!description || !cJSON_IsString(description)) {
-        printf("  \033[31m✗\033[0m Missing 'description' field\n");
-        valid = 0;
-    } else {
-        printf("  \033[32m✓\033[0m Description: %s\n", description->valuestring);
-    }
-    
-    if (!repository || !cJSON_IsString(repository)) {
-        printf("  \033[31m✗\033[0m Missing 'repository' field\n");
-        valid = 0;
-    } else {
-        printf("  \033[32m✓\033[0m Repository: %s\n", repository->valuestring);
-    }
-    
-    printf("\n");
-    
-    if (!valid) {
-        print_error("Manifest validation failed");
-        printf("\nFix the issues above and try again.\n\n");
-        cJSON_Delete(manifest);
+        free(data);
+        print_error("Missing 'id' field in manifest");
         return 1;
     }
     
-    printf("  \033[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m\n\n");
+    printf("  \033[32m✓ Manifest loaded\033[0m (%s)\n", id->valuestring);
+    printf("  Preparing submission...\n\n");
     
-    /* Generate submission instructions */
-    printf("  \033[32m✓ Manifest is valid!\033[0m\n\n");
-    
-    printf("  To publish your package:\n\n");
-    
-    printf("  \033[33m1. Push your code to GitHub:\033[0m\n");
-    printf("     git add .\n");
-    printf("     git commit -m \"Release %s\"\n", version->valuestring);
-    printf("     git push origin main\n");
-    printf("     git tag v%s\n", version->valuestring);
-    printf("     git push origin v%s\n\n", version->valuestring);
-    
-    printf("  \033[33m2. Fork the nex registry:\033[0m\n");
-    printf("     https://github.com/nexhq/nex\n\n");
-    
-    printf("  \033[33m3. Add your package:\033[0m\n");
-    
-    /* Figure out registry path from package ID */
-    const char *pkg_id = id->valuestring;
-    char first_letter = pkg_id[0];
-    const char *dot = strchr(pkg_id, '.');
-    char author[MAX_NAME_LEN] = {0};
-    char pkg_name[MAX_NAME_LEN] = {0};
-    
-    if (dot) {
-        size_t author_len = dot - pkg_id;
-        strncpy(author, pkg_id, author_len);
-        strncpy(pkg_name, dot + 1, sizeof(pkg_name) - 1);
+    /* Construct Issue Body */
+    /* We want the body to be just the code block with the JSON */
+    char *issue_body_raw = malloc(size + 64);
+    if (!issue_body_raw) {
+        free(data);
+        print_error("Out of memory");
+        return 1;
     }
     
-    printf("     Create: registry/packages/%c/%s/%s/nex.json\n", 
-           first_letter, author, pkg_name);
-    printf("     Copy your nex.json there\n\n");
+    sprintf(issue_body_raw, "```json\n%s\n```", data);
     
-    printf("  \033[33m4. Update registry/index.json:\033[0m\n");
-    printf("     Add your package entry with shortName\n\n");
+    /* Encode URL parameters */
+    char *encoded_title = malloc(MAX_NAME_LEN * 3);
+    char *encoded_body = malloc((size + 64) * 3);
     
-    printf("  \033[33m5. Submit a Pull Request:\033[0m\n");
-    printf("     Title: \"Add package: %s\"\n\n", pkg_id);
+    if (!encoded_title || !encoded_body) {
+        print_error("Out of memory");
+        return 1;
+    }
     
-    printf("  \033[90mNote: Automated publishing coming soon!\033[0m\n\n");
+    char title[MAX_NAME_LEN];
+    snprintf(title, sizeof(title), "Register Package: %s", id->valuestring);
     
+    url_encode(title, encoded_title, MAX_NAME_LEN * 3);
+    url_encode(issue_body_raw, encoded_body, (size + 64) * 3);
+    
+    /* Construct GitHub URL */
+    /* Assumes Issue Template handles the rest or general issue */
+    char url[8192]; 
+    /* Truncate if too long, though modern browsers handle long URLs well */
+    snprintf(url, sizeof(url), 
+        "https://github.com/nexhq/nex/issues/new?title=%s&body=%s&labels=package-submission",
+        encoded_title, encoded_body);
+        
+    printf("  Opening GitHub to submit package...\n");
+    printf("  \033[90m(If browser doesn't open, copy link below)\033[0m\n\n");
+    printf("  %s\n\n", url);
+    
+    open_url(url);
+    
+    printf("  \033[32m✓ Submission initiated!\033[0m\n");
+    printf("  Once approved (merged), your package will be live.\n\n");
+    
+    free(data);
+    free(issue_body_raw);
+    free(encoded_title);
+    free(encoded_body);
     cJSON_Delete(manifest);
+    
     return 0;
 }

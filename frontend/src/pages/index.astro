@@ -1,16 +1,28 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-// Import local registry directly to reflect local changes immediately
-import localRegistry from '../../../../registry/index.json';
-
-// Use local registry packages
-let packages = localRegistry.packages || [];
+// Fetch packages from backend API
+const registryUrl = 'http://localhost:5000/api/packages';
+let packages = [];
 let error = null;
+
+try {
+  const response = await fetch(registryUrl);
+  if (response.ok) {
+    const data = await response.json();
+    packages = data.packages || [];
+  } else {
+    error = `API Error: ${response.status}`;
+  }
+} catch (e) {
+  error = 'Could not connect to registry backend';
+  console.error(e);
+  packages = [];
+}
 
 // Fetch latest release version from GitHub
 const githubReleasesApi = 'https://api.github.com/repos/nexhq/nex/releases/latest';
-let releaseVersion = 'v1.8.0'; // Default to current version
+let releaseVersion = 'v1.8.1'; // Default to current version
 let releaseDate = '';
 
 try {
