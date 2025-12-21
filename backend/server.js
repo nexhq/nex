@@ -31,26 +31,24 @@ mongoose
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.log(err));
 
-// Routes
+// API Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/packages', require('./routes/packages'));
-
-// Serve package detail page for any /packages/:id URL
-app.get('/packages/:id', (req, res, next) => {
-    // If it looks like a file extension (css, js, maps), skip
-    if (req.params.id.match(/\.(css|js|map|png|jpg|ico)$/)) {
-        return next();
-    }
-    res.sendFile(path.join(__dirname, 'public/packages/view/index.html'));
-});
 
 // Route compatibility for CLI
 // CLI expects /registry/index.json -> maps to /api/packages
 app.get('/registry/index.json', (req, res) => {
     res.redirect('/api/packages');
 });
-// CLI expects /registry/packages/... -> we need to handle this query param style or path style if possible
-// Ideally we update CLI to use /api/packages/:id, but for now:
+
+// Redirect /packages to frontend (Vercel)
+app.get('/packages', (req, res) => {
+    res.redirect('https://try-nex.vercel.app/packages');
+});
+
+app.get('/packages/*', (req, res) => {
+    res.redirect('https://try-nex.vercel.app' + req.path);
+});
 
 const PORT = process.env.PORT || 5000;
 
