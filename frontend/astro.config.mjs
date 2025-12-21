@@ -8,5 +8,7 @@ export default defineConfig({
   // base: '/nex',
   integrations: [sitemap()],
   output: 'hybrid', // Hybrid mode: static by default, SSR for dynamic routes
-  adapter: vercel(), // Vercel adapter for SSR support
+  adapter: vercel({
+    runtime: 'nodejs20.x' // Use Node.js 20 runtime (supported by Vercel)
+  }),
 });
