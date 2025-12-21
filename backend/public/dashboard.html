@@ -380,21 +380,31 @@
             const tbody = document.getElementById('packages-list');
             tbody.innerHTML = '';
 
+            console.log('All packages:', allPackages);
+            console.log('Current user:', currentUser);
+
             const filtered = showAll
                 ? allPackages
-                // We'll simulate 'my packages' for now by simple filter if author matches username
-                // Ideally backend sends owner ID, but let's check manifest author or just show all for demo
-                : allPackages.filter(p => !p.workspace || p.workspace === currentUser.id); // TODO: Real ownership check
+                // Filter by workspace (owner) - convert both to string for comparison
+                : allPackages.filter(p => {
+                    // If no workspace set, or workspace matches current user ID
+                    const pkgWorkspace = p.workspace ? String(p.workspace) : null;
+                    const userId = currentUser.id ? String(currentUser.id) : null;
+                    console.log(`Package ${p.id}: workspace=${pkgWorkspace}, userId=${userId}`);
+                    return !pkgWorkspace || pkgWorkspace === userId;
+                });
+
+            console.log('Filtered packages:', filtered);
 
             // If empty
             if (filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">No packages found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">No packages found. Click "+ New Package" to publish your first package!</td></tr>';
                 return;
             }
 
             filtered.forEach(pkg => {
                 const tr = document.createElement('tr');
-                const owner = pkg.author ? (pkg.author.name || pkg.author) : 'Unknown';
+                const owner = pkg.author ? (typeof pkg.author === 'string' ? pkg.author : pkg.author.name || 'Unknown') : 'Unknown';
                 const runtime = pkg.runtime ? (pkg.runtime.type || 'unknown') : 'unknown';
 
                 tr.innerHTML = `
