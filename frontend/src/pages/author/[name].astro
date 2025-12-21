@@ -79,7 +79,7 @@ const baseUrl = import.meta.env.BASE_URL;
               <span>{(pkg.keywords || []).slice(0, 3).join(' • ')}</span>
             </div>
             <div class="actions">
-              <a class="btn btn-secondary" href={`${baseUrl}packages/${pkg.id}`}>View package</a>
+              <a class="btn btn-secondary" href={`${baseUrl}packages/view?id=${pkg.id}`}>View package</a>
               <button class="btn btn-dark copy-btn" type="button" data-copy={`nex install ${pkg.id}`}>Copy install</button>
             </div>
           </article>
