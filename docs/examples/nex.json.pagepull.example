@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/nexhq/nex/main/registry/schema/nex-package.schema.json",
-  "id": "devkiraa.pagepull",
+  "id": "pagepull",
   "name": "PagePull",
   "version": "0.0.1",
   "description": "Pull entire websites for offline viewing",
@@ -37,31 +37,31 @@
     "download": {
       "description": "Download a website for offline viewing",
       "args": ["-u", "${url}"],
-      "example": "nex run devkiraa.pagepull download --url https://example.com"
+      "example": "nex run pagepull download --url https://example.com"
     },
     "serve": {
       "description": "Download and start local preview server",
       "args": ["-u", "${url}", "--serve"],
-      "example": "nex run devkiraa.pagepull serve --url https://example.com"
+      "example": "nex run pagepull serve --url https://example.com"
     },
     "stealth": {
       "description": "Download in stealth mode (slower, safer)",
       "args": ["-u", "${url}", "--stealth"],
-      "example": "nex run devkiraa.pagepull stealth --url https://example.com"
+      "example": "nex run pagepull stealth --url https://example.com"
     }
   },
   "examples": [
     {
       "description": "Download a website",
-      "command": "nex run devkiraa.pagepull -u https://example.com"
+      "command": "nex run pagepull -u https://example.com"
     },
     {
       "description": "Download with preview server",
-      "command": "nex run devkiraa.pagepull -u https://react.dev --serve"
+      "command": "nex run pagepull -u https://react.dev --serve"
     },
     {
       "description": "Stealth mode download",
-      "command": "nex run devkiraa.pagepull -u https://example.com --stealth"
+      "command": "nex run pagepull -u https://example.com --stealth"
     }
   ],
   "author": {

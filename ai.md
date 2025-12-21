@@ -30,15 +30,19 @@ You must generate the following files:
 4. `README.md`: Usage instructions.
 
 ### 3. Manifest Schema (nex.json)
+
+> ⚠️ **Important**: Package IDs must be **unique**. No two packages can have the same ID.
+> The registry will reject any package with a duplicate ID.
+
 ```json
 {
-  "id": "author.name",          // Lowercase, alphanumeric, dots allowed. E.g. "devkiraa.pagepull"
-  "name": "Display Name",       // Human-readable title
-  "version": "0.1.0",           // Semantic Versioning
-  "description": "...",         // Short summary for the list view
+  "id": "pagepull",              // UNIQUE package identifier. Lowercase, alphanumeric, hyphens allowed.
+  "name": "PagePull",            // Human-readable display name
+  "version": "0.1.0",            // Semantic Versioning
+  "description": "...",          // Short summary for the list view
   "author": {
     "name": "YourName",
-    "github": "username"        // Optional: Links to GitHub profile
+    "github": "username"         // Optional: Links to GitHub profile
   },
   "license": "MIT",
   "repository": "https://github.com/user/repo", // Link to source code
@@ -54,10 +58,10 @@ You must generate the following files:
     }
   ],
   "runtime": { 
-    "type": "python",           // "python", "node", "bash"
+    "type": "python",            // "python", "node", "bash"
     "version": ">=3.10"
   },
-  "entrypoint": "main.py",      // Relative path to main script
+  "entrypoint": "main.py",       // Relative path to main script
   "commands": {
     "default": "python main.py",
     "install": "pip install -r requirements.txt"
@@ -96,7 +100,7 @@ This file tells the Nex CLI how to install and run your tool.
 
 | Field | Description | Example |
 | :--- | :--- | :--- |
-| `id` | Unique identifier. Format: `author.package` | `devkiraa.pagepull` |
+| `id` | **Unique** package identifier. Must be globally unique across the registry. | `pagepull`, `weather-cli` |
 | `name` | Human-readable name | `PagePull` |
 | `runtime.type` | The environment needed | `python` \| `node` \| `bash` |
 | `entrypoint` | Main script file | `main.py` |
@@ -139,11 +143,14 @@ To test a package before publishing:
 **nex.json**
 ```json
 {
-  "id": "demo.weather",
+  "id": "weather-cli",
   "name": "WeatherCLI",
   "version": "1.0.0",
   "description": "Get current weather for any city",
-  "author": "demo",
+  "author": {
+    "name": "Demo User",
+    "github": "demouser"
+  },
   "runtime": { "type": "python" },
   "entrypoint": "weather.py",
   "commands": {
@@ -168,7 +175,7 @@ from rich.console import Console
 console = Console()
 
 if len(sys.argv) < 2:
-    console.print("[red]Usage: nex run demo.weather [city][/red]")
+    console.print("[red]Usage: nex run weather-cli [city][/red]")
     sys.exit(1)
 
 city = sys.argv[1]

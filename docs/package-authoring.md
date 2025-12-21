@@ -58,19 +58,22 @@ The manifest describes your package to Nex.
 
 In the Nex registry:
 ```
-registry/packages/<first-letter>/<author>/<package-name>/manifest.json
+registry/packages/<first-letter>/<package-name>/manifest.json
 ```
 
-For a package `john.image-converter`:
+For a package `image-converter`:
 ```
-registry/packages/j/john/image-converter/manifest.json
+registry/packages/i/image-converter/manifest.json
 ```
 
 ### Manifest Schema
 
+> ⚠️ **Important**: Package IDs must be **unique** across the entire registry.
+> The system will reject any package with a duplicate ID.
+
 ```json
 {
-  "id": "author.package-name",
+  "id": "my-package",
   "name": "Package Display Name",
   "version": "1.0.0",
   "description": "Short description of what your tool does",
@@ -106,7 +109,7 @@ registry/packages/j/john/image-converter/manifest.json
 
 | Field | Description |
 |-------|-------------|
-| `id` | Unique identifier: `author.package-name` |
+| `id` | **Unique** package identifier (lowercase, alphanumeric, hyphens allowed) |
 | `name` | Human-readable display name |
 | `version` | Semantic version (e.g., `1.0.0`) |
 | `description` | Brief description (max 500 chars) |
@@ -141,8 +144,8 @@ Define named commands users can run:
 
 Users run these with:
 ```bash
-nex run author.package-name          # runs "default"
-nex run author.package-name convert  # runs "convert"
+nex run my-package          # runs "default"
+nex run my-package convert  # runs "convert"
 ```
 
 ## Step 3: Submit to Registry
@@ -162,7 +165,7 @@ nex run author.package-name convert  # runs "convert"
 
 2. Create your package directory:
    ```bash
-   mkdir -p registry/packages/j/john/my-tool
+   mkdir -p registry/packages/m/my-tool
    ```
 
 3. Create your `manifest.json` in that directory
@@ -172,12 +175,12 @@ nex run author.package-name convert  # runs "convert"
    {
      "packages": [
        {
-         "id": "john.my-tool",
+         "id": "my-tool",
          "name": "My Tool",
          "version": "1.0.0",
          "description": "Short description",
          "keywords": ["utility"],
-         "manifest": "packages/j/john/my-tool/manifest.json"
+         "manifest": "packages/m/my-tool/manifest.json"
        }
      ]
    }
@@ -188,7 +191,7 @@ nex run author.package-name convert  # runs "convert"
 1. Commit your changes:
    ```bash
    git add .
-   git commit -m "Add package: john.my-tool"
+   git commit -m "Add package: my-tool"
    git push origin main
    ```
 
@@ -206,10 +209,10 @@ nex run author.package-name convert  # runs "convert"
 
 ### Package ID
 
-- Use your GitHub username as the author
-- Use lowercase, hyphens for spaces
+- Use lowercase letters, numbers, and hyphens only
 - Keep it short but descriptive
-- Examples: `john.image-resize`, `acme.data-parser`
+- Must be **globally unique** across the registry
+- Examples: `image-resize`, `data-parser`, `weather-cli`
 
 ### Version Numbering
 
@@ -262,7 +265,7 @@ You can optionally add a `nex.json` file to your tool's repository. This file te
 ```json
 {
   "$schema": "https://raw.githubusercontent.com/nexhq/nex/main/registry/schema/nex-package.schema.json",
-  "id": "author.package-name",
+  "id": "my-tool",
   "name": "My Tool",
   "version": "1.0.0",
   "description": "What the tool does",
@@ -303,7 +306,7 @@ You can optionally add a `nex.json` file to your tool's repository. This file te
 ```json
 {
   "$schema": "https://raw.githubusercontent.com/nexhq/nex/main/registry/schema/nex-package.schema.json",
-  "id": "devkiraa.pagepull",
+  "id": "pagepull",
   "name": "PagePull",
   "version": "0.0.1",
   "description": "Pull entire websites for offline viewing",
@@ -331,7 +334,7 @@ You can optionally add a `nex.json` file to your tool's repository. This file te
 
 ```json
 {
-  "id": "author.my-node-tool",
+  "id": "my-node-tool",
   "name": "My Node Tool",
   "version": "1.0.0",
   "type": "node",
@@ -352,7 +355,7 @@ You can optionally add a `nex.json` file to your tool's repository. This file te
 
 ```json
 {
-  "id": "author.my-binary",
+  "id": "my-binary",
   "name": "My Binary Tool",
   "version": "2.0.0",
   "type": "binary",
@@ -370,14 +373,14 @@ You can optionally add a `nex.json` file to your tool's repository. This file te
 
 ### How Nex Uses nex.json
 
-When you run `nex install author.package-name`:
+When you run `nex install my-package`:
 
 1. Nex fetches the registry manifest
 2. Downloads your tool from GitHub releases
 3. Reads `nex.json` (if present) for run configuration
 4. Sets up dependencies (pip install, npm install, etc.)
 
-When you run `nex run author.package-name [args]`:
+When you run `nex run my-package [args]`:
 
 1. Nex reads the `run` configuration
 2. Executes the command with your arguments

@@ -53,27 +53,46 @@ router.post('/', auth, async (req, res) => {
 
         // Basic validation
         if (!manifest.id || !manifest.name || !manifest.version) {
-            return res.status(400).json({ msg: 'Invalid manifest' });
+            return res.status(400).json({ msg: 'Invalid manifest: id, name, and version are required' });
+        }
+
+        // Validate package ID format (lowercase, alphanumeric, hyphens only)
+        const idPattern = /^[a-z0-9][a-z0-9-]*[a-z0-9]$|^[a-z0-9]$/;
+        if (!idPattern.test(manifest.id)) {
+            return res.status(400).json({
+                msg: 'Invalid package ID format. Use lowercase letters, numbers, and hyphens only. Cannot start or end with hyphen.'
+            });
         }
 
         // Check if package exists
         let pkg = await Package.findOne({ id: manifest.id });
 
-        // Authorization check: Only allow updates if owner matches (simplified for now)
-        // Real implementation should check req.user.username vs manifest.id author prefix
-
         if (pkg) {
-            // Update existing
+            // Package exists - check if current user is the owner
+            if (pkg.workspace.toString() !== req.user.id) {
+                return res.status(409).json({
+                    msg: `Package ID '${manifest.id}' is already taken. Please choose a different ID.`
+                });
+            }
+
+            // Owner is updating their package
             pkg.name = manifest.name;
             pkg.version = manifest.version;
             pkg.description = manifest.description;
+            pkg.author = manifest.author;
+            pkg.license = manifest.license;
+            pkg.repository = manifest.repository;
+            pkg.runtime = manifest.runtime;
+            pkg.entrypoint = manifest.entrypoint;
+            pkg.commands = manifest.commands;
+            pkg.keywords = manifest.keywords;
             pkg.manifest = manifest;
             pkg.updatedAt = Date.now();
             await pkg.save();
             return res.json({ msg: 'Package updated', id: pkg.id });
         }
 
-        // Create new
+        // Create new package
         pkg = new Package({
             id: manifest.id,
             name: manifest.name,
@@ -85,6 +104,7 @@ router.post('/', auth, async (req, res) => {
             runtime: manifest.runtime,
             entrypoint: manifest.entrypoint,
             commands: manifest.commands,
+            keywords: manifest.keywords,
             manifest: manifest,
             workspace: req.user.id
         });
