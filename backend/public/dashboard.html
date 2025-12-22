@@ -843,7 +843,7 @@
         </svg>
         <h1>Access Denied</h1>
         <p>This dashboard is only accessible to administrators.</p>
-        <a href="/login.html" class="btn btn-primary">Back to Login</a>
+        <a href="/login" class="btn btn-primary">Back to Login</a>
     </div>
 
     <script>
@@ -860,7 +860,7 @@
             const userStr = localStorage.getItem('user');
 
             if (!token || !userStr) {
-                window.location.href = '/login.html';
+                window.location.href = '/login';
                 return;
             }
 
@@ -1088,7 +1088,7 @@
         function logout() {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            window.location.href = '/login.html';
+            window.location.href = '/login';
         }
     </script>
 </body>

@@ -407,7 +407,7 @@
                 } else {
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('user', JSON.stringify(data.user));
-                    window.location.href = '/dashboard.html';
+                    window.location.href = '/dashboard';
                 }
             } catch (err) {
                 errorDiv.innerText = err.message;

@@ -374,7 +374,7 @@
                     <div class="user-avatar" id="user-avatar">U</div>
                     <span id="username">User</span>
                 </div>
-                <a href="/dashboard.html" class="btn btn-secondary">Dashboard</a>
+                <a href="/dashboard" class="btn btn-secondary">Dashboard</a>
                 <button class="btn btn-secondary" onclick="logout()">Logout</button>
             </div>
         </div>
@@ -473,7 +473,7 @@
         const token = localStorage.getItem('token');
         const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-        if (!token) window.location.href = '/login.html';
+        if (!token) window.location.href = '/login';
 
         // Set user info
         if (user.username) {
@@ -484,7 +484,7 @@
         function logout() {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            window.location.href = '/login.html';
+            window.location.href = '/login';
         }
 
         async function publish() {

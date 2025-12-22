@@ -8,19 +8,19 @@ require('dotenv').config();
 const app = express();
 
 // CORS Configuration - Allow all origins for API access
-// The frontend (https://try-nex.vercel.app) and Vercel build servers need access
-// Also allows localhost for development
 const corsOptions = {
-    origin: true, // Allow all origins (needed for SSR and build-time fetches)
+    origin: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'],
     credentials: true
 };
 
 // Middleware
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
-app.use(express.static('public')); // Serve static files for simple frontend
+
+// Serve static files (CSS, JS, images)
+app.use(express.static('public'));
 
 // DB Config
 const db = process.env.MONGO_URI || 'mongodb://localhost:27017/nex';
@@ -34,6 +34,23 @@ mongoose
 // API Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/packages', require('./routes/packages'));
+
+// Clean URL routes (without .html)
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+});
+
+app.get('/publish', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'publish.html'));
+});
 
 // Redirect /packages to frontend (Vercel)
 app.get('/packages', (req, res) => {
