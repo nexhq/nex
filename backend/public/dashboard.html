@@ -815,67 +815,122 @@
         <div id="view-analytics">
             <div class="page-header">
                 <div>
-                    <h1 class="page-title">Analytics</h1>
-                    <p class="page-subtitle">Registry statistics</p>
+                    <h1 class="page-title">📊 Analytics Overview</h1>
+                    <p class="page-subtitle">Real-time statistics for your package registry</p>
                 </div>
-                <button class="btn btn-primary" onclick="openPublishModal()">+ New Package</button>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon red"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2">
-                            <path
-                                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                        </svg></div>
-                    <div class="stat-label">Packages</div>
-                    <div class="stat-value" id="stat-packages">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                            <polyline points="7 10 12 15 17 10" />
-                            <line x1="12" y1="15" x2="12" y2="3" />
-                        </svg></div>
-                    <div class="stat-label">Downloads</div>
-                    <div class="stat-value" id="stat-downloads">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                            <circle cx="9" cy="7" r="4" />
-                        </svg></div>
-                    <div class="stat-label">Users</div>
-                    <div class="stat-value" id="stat-users">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="4" width="18" height="18" rx="2" />
-                            <line x1="16" y1="2" x2="16" y2="6" />
-                            <line x1="8" y1="2" x2="8" y2="6" />
-                        </svg></div>
-                    <div class="stat-label">Deprecated</div>
-                    <div class="stat-value" id="stat-deprecated">0</div>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="loadData()">↻ Refresh</button>
+                    <button class="btn btn-primary" onclick="openPublishModal()">+ New Package</button>
                 </div>
             </div>
+
+            <!-- Hero Stats -->
+            <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="stat-card"
+                    style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%); color: white; border: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <div style="font-size: 2.5rem; font-weight: 800; line-height: 1;" id="stat-packages">0</div>
+                            <div style="opacity: 0.9; font-size: 0.85rem; margin-top: 0.25rem;">Total Packages</div>
+                        </div>
+                        <div
+                            style="width: 48px; height: 48px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                <path
+                                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card"
+                    style="background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%); color: white; border: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <div style="font-size: 2.5rem; font-weight: 800; line-height: 1;" id="stat-downloads">0
+                            </div>
+                            <div style="opacity: 0.9; font-size: 0.85rem; margin-top: 0.25rem;">Total Downloads</div>
+                        </div>
+                        <div
+                            style="width: 48px; height: 48px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="7 10 12 15 17 10" />
+                                <line x1="12" y1="15" x2="12" y2="3" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card"
+                    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <div style="font-size: 2.5rem; font-weight: 800; line-height: 1;" id="stat-users">0</div>
+                            <div style="opacity: 0.9; font-size: 0.85rem; margin-top: 0.25rem;">Registered Users</div>
+                        </div>
+                        <div
+                            style="width: 48px; height: 48px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                <circle cx="9" cy="7" r="4" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card"
+                    style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <div style="font-size: 2.5rem; font-weight: 800; line-height: 1;" id="stat-deprecated">0
+                            </div>
+                            <div style="opacity: 0.9; font-size: 0.85rem; margin-top: 0.25rem;">Deprecated</div>
+                        </div>
+                        <div
+                            style="width: 48px; height: 48px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="15" y1="9" x2="9" y2="15" />
+                                <line x1="9" y1="9" x2="15" y2="15" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
             <div class="charts-grid">
-                <div class="chart-card">
-                    <div class="chart-title">Downloads (30 Days)</div><canvas id="downloadsChart" height="200"></canvas>
+                <div class="chart-card" style="box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <div class="chart-title" style="margin: 0;">📈 Download Trends (30 Days)</div>
+                        <span
+                            style="font-size: 0.75rem; color: var(--nex-gray); background: var(--nex-bg); padding: 0.25rem 0.5rem; border-radius: 100px;">Live
+                            Data</span>
+                    </div>
+                    <canvas id="downloadsChart" height="180"></canvas>
                 </div>
-                <div class="chart-card">
-                    <div class="chart-title">By Category</div><canvas id="categoryChart" height="200"></canvas>
+                <div class="chart-card" style="box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <div class="chart-title" style="margin: 0;">🏷️ By Category</div>
+                    </div>
+                    <canvas id="categoryChart" height="180"></canvas>
                 </div>
             </div>
-            <div class="table-container">
-                <div class="table-header">
-                    <div class="table-title">Top Packages</div>
+
+            <!-- Top Packages -->
+            <div class="table-container" style="box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                <div class="table-header" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1.25rem;">🏆</span>
+                        <div class="table-title">Top Performing Packages</div>
+                    </div>
+                    <a href="javascript:void(0)" onclick="switchView('packages')"
+                        style="color: var(--nex-link); font-size: 0.85rem; text-decoration: none;">View all →</a>
                 </div>
                 <table>
                     <thead>
                         <tr>
-                            <th>Package</th>
+                            <th style="width: 40%;">Package</th>
                             <th>Version</th>
                             <th>Rating</th>
                             <th>Downloads</th>
