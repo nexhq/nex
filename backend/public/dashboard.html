@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | nex</title>
+    <title>Admin Dashboard | nex</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Fira+Code&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --nex-red: #cb3837;
@@ -47,7 +48,7 @@
 
         /* Sidebar */
         .sidebar {
-            width: 280px;
+            width: 260px;
             background: var(--nex-black);
             color: var(--nex-white);
             display: flex;
@@ -65,7 +66,7 @@
         }
 
         .logo {
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--nex-red);
             display: flex;
@@ -75,15 +76,15 @@
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             background: linear-gradient(135deg, var(--nex-red) 0%, var(--nex-red-dark) 100%);
-            border-radius: 10px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.25rem;
+            font-size: 1rem;
         }
 
         .sidebar-nav {
@@ -92,12 +93,12 @@
         }
 
         .nav-section {
-            padding: 0 1rem;
+            padding: 0 0.75rem;
             margin-bottom: 1.5rem;
         }
 
         .nav-section-title {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: var(--nex-gray);
@@ -109,7 +110,7 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 0.75rem 1rem;
+            padding: 0.65rem 0.75rem;
             margin-bottom: 0.25rem;
             border-radius: var(--radius);
             cursor: pointer;
@@ -117,6 +118,7 @@
             color: var(--nex-gray-light);
             text-decoration: none;
             font-weight: 500;
+            font-size: 0.9rem;
         }
 
         .nav-item:hover {
@@ -130,13 +132,13 @@
         }
 
         .nav-item svg {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             opacity: 0.8;
         }
 
         .user-section {
-            padding: 1rem 1.5rem;
+            padding: 1rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             background: rgba(0, 0, 0, 0.2);
         }
@@ -148,8 +150,8 @@
         }
 
         .user-avatar {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             background: linear-gradient(135deg, var(--nex-red) 0%, var(--nex-red-dark) 100%);
             border-radius: 50%;
             display: flex;
@@ -157,7 +159,7 @@
             justify-content: center;
             color: white;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         .user-details {
@@ -168,13 +170,14 @@
         .user-name {
             font-weight: 600;
             color: var(--nex-white);
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
         .role-badge {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             padding: 2px 6px;
             background: var(--nex-red);
             color: white;
@@ -185,7 +188,7 @@
 
         .logout-btn {
             color: var(--nex-gray);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             cursor: pointer;
             transition: color 0.2s;
             background: none;
@@ -201,8 +204,8 @@
         /* Main Content */
         .main-content {
             flex: 1;
-            margin-left: 280px;
-            padding: 2rem;
+            margin-left: 260px;
+            padding: 1.5rem;
             min-height: 100vh;
         }
 
@@ -210,18 +213,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .page-title {
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--nex-black);
         }
 
         .page-subtitle {
             color: var(--nex-gray);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             margin-top: 0.25rem;
         }
 
@@ -230,10 +233,10 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
+            padding: 0.65rem 1.25rem;
             border-radius: var(--radius);
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             text-decoration: none;
             transition: all 0.2s;
             cursor: pointer;
@@ -274,40 +277,34 @@
         }
 
         .btn-sm {
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.8rem;
         }
 
         /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .stat-card {
             background: var(--nex-white);
             border-radius: 12px;
-            padding: 1.5rem;
+            padding: 1.25rem;
             border: 1px solid var(--nex-border);
             box-shadow: var(--shadow-sm);
-            transition: all 0.2s;
-        }
-
-        .stat-card:hover {
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
         }
 
         .stat-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
 
         .stat-icon.red {
@@ -325,17 +322,45 @@
             color: #2563eb;
         }
 
+        .stat-icon.purple {
+            background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+            color: #9333ea;
+        }
+
         .stat-label {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--nex-gray);
             font-weight: 500;
             margin-bottom: 0.25rem;
         }
 
         .stat-value {
-            font-size: 2rem;
+            font-size: 1.75rem;
             font-weight: 700;
             color: var(--nex-black);
+        }
+
+        /* Charts */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-card {
+            background: var(--nex-white);
+            border-radius: 12px;
+            padding: 1.25rem;
+            border: 1px solid var(--nex-border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .chart-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            color: var(--nex-dark);
         }
 
         /* Table */
@@ -348,7 +373,7 @@
         }
 
         .table-header {
-            padding: 1rem 1.5rem;
+            padding: 1rem 1.25rem;
             border-bottom: 1px solid var(--nex-border);
             display: flex;
             justify-content: space-between;
@@ -357,7 +382,7 @@
 
         .table-title {
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         table {
@@ -367,7 +392,7 @@
 
         th,
         td {
-            padding: 1rem 1.5rem;
+            padding: 0.75rem 1.25rem;
             text-align: left;
             border-bottom: 1px solid var(--nex-border);
         }
@@ -375,7 +400,7 @@
         th {
             background: var(--nex-bg);
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: var(--nex-gray);
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -393,45 +418,60 @@
             font-family: var(--font-mono);
             font-weight: 600;
             color: var(--nex-black);
+            font-size: 0.9rem;
         }
 
         .version-badge {
             display: inline-block;
-            padding: 0.25rem 0.6rem;
+            padding: 0.2rem 0.5rem;
             background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
             color: #16a34a;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
+            border-radius: 100px;
+        }
+
+        .downloads-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 0.2rem 0.5rem;
+            background: var(--nex-bg);
+            border: 1px solid var(--nex-border);
+            color: var(--nex-dark);
+            font-size: 0.75rem;
+            font-weight: 500;
             border-radius: 100px;
         }
 
         .runtime-badge {
             display: inline-block;
-            padding: 0.25rem 0.6rem;
+            padding: 0.2rem 0.5rem;
             background: var(--nex-bg);
             border: 1px solid var(--nex-border);
             color: var(--nex-dark);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 500;
             border-radius: 100px;
         }
 
         .empty-state {
             text-align: center;
-            padding: 3rem;
+            padding: 2rem;
             color: var(--nex-gray);
         }
 
         .empty-state svg {
-            width: 64px;
-            height: 64px;
+            width: 48px;
+            height: 48px;
             color: var(--nex-gray-light);
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
 
         .empty-state h3 {
             color: var(--nex-dark);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
+            font-size: 1rem;
         }
 
         /* Modal */
@@ -461,7 +501,7 @@
         }
 
         .modal-header {
-            padding: 1.5rem;
+            padding: 1.25rem;
             border-bottom: 1px solid var(--nex-border);
             display: flex;
             justify-content: space-between;
@@ -469,14 +509,14 @@
         }
 
         .modal-header h2 {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             color: var(--nex-black);
         }
 
         .modal-close {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
             border: none;
             background: var(--nex-bg);
             color: var(--nex-gray);
@@ -493,21 +533,21 @@
         }
 
         .modal-body {
-            padding: 1.5rem;
+            padding: 1.25rem;
         }
 
         .modal-body p {
             color: var(--nex-gray);
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
         }
 
         .modal-body textarea {
             width: 100%;
-            height: 250px;
+            height: 220px;
             font-family: var(--font-mono);
-            font-size: 0.9rem;
-            padding: 1rem;
+            font-size: 0.85rem;
+            padding: 0.75rem;
             border: 2px solid var(--nex-border);
             border-radius: var(--radius);
             resize: vertical;
@@ -520,64 +560,62 @@
         }
 
         .modal-footer {
-            padding: 1rem 1.5rem;
+            padding: 0.75rem 1.25rem;
             border-top: 1px solid var(--nex-border);
             display: flex;
             justify-content: flex-end;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .sidebar {
-                width: 80px;
+        /* Access Denied */
+        .access-denied {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .access-denied svg {
+            width: 80px;
+            height: 80px;
+            color: var(--nex-red);
+            margin-bottom: 1.5rem;
+        }
+
+        .access-denied h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .access-denied p {
+            color: var(--nex-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .sidebar-header .logo span:last-child,
-            .nav-section-title,
-            .nav-item span,
-            .user-details {
-                display: none;
-            }
-
-            .nav-item {
-                justify-content: center;
-                padding: 0.75rem;
-            }
-
-            .user-section {
-                padding: 1rem;
-                display: flex;
-                justify-content: center;
-            }
-
-            .main-content {
-                margin-left: 80px;
+            .charts-grid {
+                grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 768px) {
             .sidebar {
-                transform: translateX(-100%);
+                display: none;
             }
 
             .main-content {
                 margin-left: 0;
             }
 
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-
             .stats-grid {
                 grid-template-columns: 1fr;
-            }
-
-            th,
-            td {
-                padding: 0.75rem 1rem;
             }
         }
     </style>
@@ -595,15 +633,12 @@
 
         <nav class="sidebar-nav">
             <div class="nav-section">
-                <div class="nav-section-title">Menu</div>
-                <a class="nav-item active" onclick="switchView('overview')">
+                <div class="nav-section-title">Dashboard</div>
+                <a class="nav-item active" onclick="switchView('analytics')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="7" height="7"></rect>
-                        <rect x="14" y="3" width="7" height="7"></rect>
-                        <rect x="14" y="14" width="7" height="7"></rect>
-                        <rect x="3" y="14" width="7" height="7"></rect>
+                        <path d="M18 20V10M12 20V4M6 20v-6" />
                     </svg>
-                    <span>Dashboard</span>
+                    <span>Analytics</span>
                 </a>
                 <a class="nav-item" onclick="switchView('packages')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -611,26 +646,19 @@
                             d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
                         </path>
                     </svg>
-                    <span>My Packages</span>
-                </a>
-                <a class="nav-item" id="adminLink" onclick="switchView('admin')" style="display: none;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                        <path d="M2 17l10 5 10-5"></path>
-                        <path d="M2 12l10 5 10-5"></path>
-                    </svg>
-                    <span>All Packages</span>
+                    <span>Packages</span>
                 </a>
             </div>
 
             <div class="nav-section">
-                <div class="nav-section-title">Quick Links</div>
-                <a class="nav-item" href="/packages/" target="_blank">
+                <div class="nav-section-title">Links</div>
+                <a class="nav-item" href="https://try-nex.vercel.app" target="_blank">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="m21 21-4.35-4.35"></path>
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                        <polyline points="15 3 21 3 21 9" />
+                        <line x1="10" y1="14" x2="21" y2="3" />
                     </svg>
-                    <span>Browse Registry</span>
+                    <span>Frontend</span>
                 </a>
                 <a class="nav-item" href="https://github.com/nexhq/nex" target="_blank">
                     <svg viewBox="0 0 24 24" fill="currentColor">
@@ -644,9 +672,9 @@
 
         <div class="user-section">
             <div class="user-info">
-                <div class="user-avatar" id="user-avatar">U</div>
+                <div class="user-avatar" id="user-avatar">A</div>
                 <div class="user-details">
-                    <div class="user-name" id="user-name">Loading...</div>
+                    <div class="user-name" id="user-name">Admin <span class="role-badge">Admin</span></div>
                     <button class="logout-btn" onclick="logout()">Sign out</button>
                 </div>
             </div>
@@ -654,16 +682,16 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="main-content">
-        <!-- Overview View -->
-        <div id="view-overview">
+    <main class="main-content" id="main-content">
+        <!-- Analytics View -->
+        <div id="view-analytics">
             <div class="page-header">
                 <div>
-                    <h1 class="page-title">Dashboard</h1>
-                    <p class="page-subtitle">Manage your packages and view statistics</p>
+                    <h1 class="page-title">Analytics</h1>
+                    <p class="page-subtitle">Registry statistics and download metrics</p>
                 </div>
                 <button class="btn btn-primary" onclick="openPublishModal()">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 5v14M5 12h14" />
                     </svg>
                     New Package
@@ -673,7 +701,7 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon red">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2">
                             <path
                                 d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
@@ -681,64 +709,84 @@
                         </svg>
                     </div>
                     <div class="stat-label">Total Packages</div>
-                    <div class="stat-value" id="stat-total">0</div>
+                    <div class="stat-value" id="stat-packages">0</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon green">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"></polyline>
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
                         </svg>
                     </div>
-                    <div class="stat-label">Your Packages</div>
-                    <div class="stat-value" id="stat-mine">0</div>
+                    <div class="stat-label">Total Downloads</div>
+                    <div class="stat-value" id="stat-downloads">0</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon blue">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="9" cy="7" r="4"></circle>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
                         </svg>
                     </div>
-                    <div class="stat-label">Contributors</div>
-                    <div class="stat-value" id="stat-contributors">1</div>
+                    <div class="stat-label">Total Users</div>
+                    <div class="stat-value" id="stat-users">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                        </svg>
+                    </div>
+                    <div class="stat-label">This Month</div>
+                    <div class="stat-value" id="stat-monthly">0</div>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-title">Downloads (Last 30 Days)</div>
+                    <canvas id="downloadsChart" height="200"></canvas>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-title">By Runtime</div>
+                    <canvas id="runtimeChart" height="200"></canvas>
                 </div>
             </div>
 
             <div class="table-container">
                 <div class="table-header">
-                    <div class="table-title">Recent Packages</div>
-                    <a href="#" onclick="switchView('packages')" style="color: var(--nex-link); font-size: 0.9rem;">View
-                        all →</a>
+                    <div class="table-title">Top Packages by Downloads</div>
                 </div>
                 <table>
                     <thead>
                         <tr>
                             <th>Package</th>
                             <th>Version</th>
-                            <th>Runtime</th>
-                            <th>Actions</th>
+                            <th>Downloads</th>
+                            <th>Weekly</th>
                         </tr>
                     </thead>
-                    <tbody id="recent-packages">
-                        <!-- Loaded via JS -->
-                    </tbody>
+                    <tbody id="top-packages"></tbody>
                 </table>
             </div>
         </div>
 
-        <!-- Packages List View -->
+        <!-- Packages View -->
         <div id="view-packages" style="display:none;">
             <div class="page-header">
                 <div>
-                    <h1 class="page-title" id="page-title">My Packages</h1>
-                    <p class="page-subtitle">Manage and publish your packages</p>
+                    <h1 class="page-title">Packages</h1>
+                    <p class="page-subtitle">Manage all registry packages</p>
                 </div>
                 <button class="btn btn-primary" onclick="openPublishModal()">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 5v14M5 12h14" />
                     </svg>
                     New Package
@@ -746,20 +794,18 @@
             </div>
 
             <div class="table-container">
-                <table id="packages-table">
+                <table>
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
                             <th>Version</th>
-                            <th>Author</th>
                             <th>Runtime</th>
+                            <th>Downloads</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="packages-list">
-                        <!-- Loaded via JS -->
-                    </tbody>
+                    <tbody id="packages-list"></tbody>
                 </table>
             </div>
         </div>
@@ -771,30 +817,16 @@
             <div class="modal-header">
                 <h2>Publish Package</h2>
                 <button class="modal-close" onclick="closePublishModal()">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 6L6 18M6 6l12 12" />
                     </svg>
                 </button>
             </div>
             <div class="modal-body">
                 <p>Paste your <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px;">nex.json</code>
-                    manifest below to publish or update a package.</p>
-                <textarea id="manifestInput" placeholder='{
-  "id": "your-package-id",
-  "name": "My Package",
-  "version": "1.0.0",
-  "description": "A description of your package",
-  "author": {
-    "name": "Your Name",
-    "github": "yourusername"
-  },
-  "repository": "https://github.com/user/repo",
-  "runtime": {
-    "type": "python"
-  },
-  "entrypoint": "main.py",
-  "keywords": ["cli", "tool"]
-}'></textarea>
+                    manifest:</p>
+                <textarea id="manifestInput"
+                    placeholder='{"id": "package-id", "name": "Package", "version": "1.0.0", ...}'></textarea>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closePublishModal()">Cancel</button>
@@ -803,10 +835,24 @@
         </div>
     </div>
 
+    <!-- Access Denied -->
+    <div id="access-denied" class="access-denied" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10" />
+            <path d="m4.93 4.93 14.14 14.14" />
+        </svg>
+        <h1>Access Denied</h1>
+        <p>This dashboard is only accessible to administrators.</p>
+        <a href="/login.html" class="btn btn-primary">Back to Login</a>
+    </div>
+
     <script>
         const API = 'https://nex-9ujp.onrender.com/api';
         let currentUser = null;
         let allPackages = [];
+        let statsData = null;
+        let downloadsChart = null;
+        let runtimeChart = null;
 
         // Init
         (async () => {
@@ -820,167 +866,189 @@
 
             currentUser = JSON.parse(userStr);
 
+            // Admin only
+            if (currentUser.role !== 'admin') {
+                document.querySelector('.sidebar').style.display = 'none';
+                document.getElementById('main-content').style.display = 'none';
+                document.getElementById('access-denied').style.display = 'flex';
+                return;
+            }
+
             // Set UI
-            const initial = currentUser.username ? currentUser.username.charAt(0).toUpperCase() : 'U';
+            const initial = currentUser.username ? currentUser.username.charAt(0).toUpperCase() : 'A';
             document.getElementById('user-avatar').textContent = initial;
-
-            let userNameHTML = currentUser.username || 'User';
-            if (currentUser.role === 'admin') {
-                userNameHTML += ' <span class="role-badge">Admin</span>';
-            }
-            document.getElementById('user-name').innerHTML = userNameHTML;
-
-            if (currentUser.role === 'admin') {
-                document.getElementById('adminLink').style.display = 'flex';
-            }
+            document.getElementById('user-name').innerHTML = `${currentUser.username} <span class="role-badge">Admin</span>`;
 
             await loadData();
         })();
 
         async function loadData() {
             try {
-                const res = await fetch(`${API}/packages`);
-                const data = await res.json();
-                allPackages = data.packages || [];
+                // Load packages
+                const pkgRes = await fetch(`${API}/packages`);
+                const pkgData = await pkgRes.json();
+                allPackages = pkgData.packages || [];
 
-                // Count my packages
-                const myPackages = allPackages.filter(p => {
-                    const pkgWorkspace = p.workspace ? String(p.workspace) : null;
-                    const userId = currentUser.id ? String(currentUser.id) : null;
-                    return !pkgWorkspace || pkgWorkspace === userId;
+                // Load stats (admin only)
+                const statsRes = await fetch(`${API}/packages/stats`, {
+                    headers: { 'x-auth-token': localStorage.getItem('token') }
                 });
 
-                // Update stats
-                document.getElementById('stat-total').innerText = allPackages.length;
-                document.getElementById('stat-mine').innerText = myPackages.length;
+                if (statsRes.ok) {
+                    statsData = await statsRes.json();
+                    updateStats();
+                    renderCharts();
+                    renderTopPackages();
+                }
 
-                // Count unique authors
-                const authors = new Set(allPackages.map(p => p.author?.name || p.author || 'Unknown'));
-                document.getElementById('stat-contributors').innerText = authors.size;
-
-                // Render recent packages (last 5)
-                renderRecentPackages();
                 renderPackages();
             } catch (err) {
                 console.error(err);
             }
         }
 
-        function renderRecentPackages() {
-            const tbody = document.getElementById('recent-packages');
+        function updateStats() {
+            if (!statsData) return;
+            document.getElementById('stat-packages').textContent = statsData.totalPackages || 0;
+            document.getElementById('stat-downloads').textContent = formatNumber(statsData.totalDownloads || 0);
+            document.getElementById('stat-users').textContent = statsData.totalUsers || 0;
+
+            // Calculate monthly downloads
+            const monthlyDownloads = allPackages.reduce((sum, p) => sum + (p.monthlyDownloads || 0), 0);
+            document.getElementById('stat-monthly').textContent = formatNumber(monthlyDownloads);
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+
+        function renderCharts() {
+            // Downloads chart
+            const ctx1 = document.getElementById('downloadsChart').getContext('2d');
+            const dailyData = statsData.dailyDownloads || [];
+
+            // Fill in missing days with 0
+            const last30Days = [];
+            for (let i = 29; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
+                const found = dailyData.find(d => d._id === dateStr);
+                last30Days.push({ date: dateStr, count: found ? found.count : 0 });
+            }
+
+            if (downloadsChart) downloadsChart.destroy();
+            downloadsChart = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: last30Days.map(d => d.date.split('-').slice(1).join('/')),
+                    datasets: [{
+                        label: 'Downloads',
+                        data: last30Days.map(d => d.count),
+                        borderColor: '#cb3837',
+                        backgroundColor: 'rgba(203, 56, 55, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+
+            // Runtime chart
+            const ctx2 = document.getElementById('runtimeChart').getContext('2d');
+            const runtimeData = statsData.downloadsByRuntime || [];
+
+            if (runtimeChart) runtimeChart.destroy();
+            runtimeChart = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: runtimeData.map(r => r._id || 'Unknown'),
+                    datasets: [{
+                        data: runtimeData.map(r => r.count),
+                        backgroundColor: ['#cb3837', '#16a34a', '#2563eb', '#9333ea', '#f59e0b', '#6b7280']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
+        }
+
+        function renderTopPackages() {
+            const tbody = document.getElementById('top-packages');
             tbody.innerHTML = '';
 
-            const recent = allPackages.slice(0, 5);
-
-            if (recent.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="4">
-                            <div class="empty-state">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                </svg>
-                                <h3>No packages yet</h3>
-                                <p>Publish your first package to get started!</p>
-                            </div>
-                        </td>
-                    </tr>
-                `;
+            const top = statsData.topPackages || [];
+            if (top.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="empty-state">No packages yet</td></tr>';
                 return;
             }
 
-            recent.forEach(pkg => {
+            top.forEach(pkg => {
                 const tr = document.createElement('tr');
-                const runtime = pkg.runtime ? (pkg.runtime.type || 'unknown') : 'unknown';
-
                 tr.innerHTML = `
                     <td>
                         <div class="package-id">${pkg.id}</div>
-                        <div style="color: var(--nex-gray); font-size: 0.85rem;">${pkg.name}</div>
+                        <div style="color: var(--nex-gray); font-size: 0.8rem;">${pkg.name}</div>
                     </td>
                     <td><span class="version-badge">v${pkg.version}</span></td>
-                    <td><span class="runtime-badge">${runtime}</span></td>
-                    <td>
-                        <button class="btn btn-danger btn-sm" onclick="deletePackage('${pkg.id}')">Delete</button>
-                    </td>
+                    <td><span class="downloads-badge">↓ ${formatNumber(pkg.downloads || 0)}</span></td>
+                    <td>${formatNumber(pkg.weeklyDownloads || 0)}/week</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
         function switchView(viewName) {
-            // Update Sidebar
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            event.target.closest('.nav-item').classList.add('active');
+            if (event && event.target) event.target.closest('.nav-item')?.classList.add('active');
 
-            // Hide all views
-            document.getElementById('view-overview').style.display = 'none';
+            document.getElementById('view-analytics').style.display = 'none';
             document.getElementById('view-packages').style.display = 'none';
 
-            if (viewName === 'overview') {
-                document.getElementById('view-overview').style.display = 'block';
-            } else if (viewName === 'packages' || viewName === 'admin') {
+            if (viewName === 'analytics') {
+                document.getElementById('view-analytics').style.display = 'block';
+            } else if (viewName === 'packages') {
                 document.getElementById('view-packages').style.display = 'block';
-                document.getElementById('page-title').innerText = viewName === 'admin' ? 'All Packages (Admin)' : 'My Packages';
-                renderPackages(viewName === 'admin');
+                renderPackages();
             }
         }
 
-        function renderPackages(showAll = false) {
+        function renderPackages() {
             const tbody = document.getElementById('packages-list');
             tbody.innerHTML = '';
 
-            const filtered = showAll
-                ? allPackages
-                : allPackages.filter(p => {
-                    const pkgWorkspace = p.workspace ? String(p.workspace) : null;
-                    const userId = currentUser.id ? String(currentUser.id) : null;
-                    return !pkgWorkspace || pkgWorkspace === userId;
-                });
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6">
-                            <div class="empty-state">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                </svg>
-                                <h3>No packages found</h3>
-                                <p>Click "+ New Package" to publish your first package!</p>
-                            </div>
-                        </td>
-                    </tr>
-                `;
+            if (allPackages.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No packages yet.</td></tr>';
                 return;
             }
 
-            filtered.forEach(pkg => {
+            allPackages.forEach(pkg => {
                 const tr = document.createElement('tr');
-                const owner = pkg.author ? (typeof pkg.author === 'string' ? pkg.author : pkg.author.name || 'Unknown') : 'Unknown';
-                const runtime = pkg.runtime ? (pkg.runtime.type || 'unknown') : 'unknown';
-
+                const runtime = pkg.runtime?.type || 'unknown';
                 tr.innerHTML = `
                     <td class="package-id">${pkg.id}</td>
                     <td>${pkg.name}</td>
                     <td><span class="version-badge">v${pkg.version}</span></td>
-                    <td>${owner}</td>
                     <td><span class="runtime-badge">${runtime}</span></td>
-                    <td>
-                        <button class="btn btn-danger btn-sm" onclick="deletePackage('${pkg.id}')">Delete</button>
-                    </td>
+                    <td><span class="downloads-badge">↓ ${formatNumber(pkg.downloads || 0)}</span></td>
+                    <td><button class="btn btn-danger btn-sm" onclick="deletePackage('${pkg.id}')">Delete</button></td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        function openPublishModal() {
-            document.getElementById('publishModal').classList.add('active');
-        }
-
-        function closePublishModal() {
-            document.getElementById('publishModal').classList.remove('active');
-        }
+        function openPublishModal() { document.getElementById('publishModal').classList.add('active'); }
+        function closePublishModal() { document.getElementById('publishModal').classList.remove('active'); }
 
         async function submitPackage() {
             const content = document.getElementById('manifestInput').value;
@@ -988,15 +1056,12 @@
                 const manifest = JSON.parse(content);
                 const res = await fetch(`${API}/packages`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-auth-token': localStorage.getItem('token')
-                    },
+                    headers: { 'Content-Type': 'application/json', 'x-auth-token': localStorage.getItem('token') },
                     body: JSON.stringify(manifest)
                 });
 
                 if (res.ok) {
-                    alert('Package published successfully!');
+                    alert('Package published!');
                     closePublishModal();
                     await loadData();
                 } else {
@@ -1004,30 +1069,20 @@
                     alert('Error: ' + d.msg);
                 }
             } catch (e) {
-                alert('Invalid JSON format');
+                alert('Invalid JSON');
             }
         }
 
         async function deletePackage(id) {
-            if (!confirm(`Are you sure you want to delete "${id}"?`)) return;
-
+            if (!confirm(`Delete "${id}"?`)) return;
             try {
                 const res = await fetch(`${API}/packages/${id}`, {
                     method: 'DELETE',
-                    headers: {
-                        'x-auth-token': localStorage.getItem('token')
-                    }
+                    headers: { 'x-auth-token': localStorage.getItem('token') }
                 });
-
-                if (res.ok) {
-                    await loadData();
-                } else {
-                    const d = await res.json();
-                    alert('Error: ' + d.msg);
-                }
-            } catch (e) {
-                console.error(e);
-            }
+                if (res.ok) await loadData();
+                else alert('Error deleting package');
+            } catch (e) { console.error(e); }
         }
 
         function logout() {
