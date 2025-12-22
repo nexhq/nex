@@ -8,7 +8,7 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Fira+Code&display=swap"
         rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         :root {
             --nex-red: #cb3837;
@@ -331,27 +331,6 @@
         .stat-value {
             font-size: 1.75rem;
             font-weight: 700;
-        }
-
-        .charts-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .chart-card {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid var(--nex-border);
-            min-height: 280px;
-        }
-
-        .chart-title {
-            font-weight: 600;
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
         }
 
         .table-container {
@@ -894,27 +873,6 @@
                             </svg>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Charts Row -->
-            <div class="charts-grid">
-                <div class="chart-card" style="box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                        <div class="chart-title" style="margin: 0;">📈 Download Trends (30 Days)</div>
-                        <span
-                            style="font-size: 0.75rem; color: var(--nex-gray); background: var(--nex-bg); padding: 0.25rem 0.5rem; border-radius: 100px;">Live
-                            Data</span>
-                    </div>
-                    <canvas id="downloadsChart" height="180"></canvas>
-                </div>
-                <div class="chart-card" style="box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                        <div class="chart-title" style="margin: 0;">🏷️ By Category</div>
-                    </div>
-                    <canvas id="categoryChart" height="180"></canvas>
                 </div>
             </div>
 
