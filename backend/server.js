@@ -35,12 +35,6 @@ mongoose
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/packages', require('./routes/packages'));
 
-// Route compatibility for CLI
-// CLI expects /registry/index.json -> maps to /api/packages
-app.get('/registry/index.json', (req, res) => {
-    res.redirect('/api/packages');
-});
-
 // Redirect /packages to frontend (Vercel)
 app.get('/packages', (req, res) => {
     res.redirect('https://try-nex.vercel.app/packages');
